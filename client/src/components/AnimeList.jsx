@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName } from "../api/anime";
+import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName, getAnimeRatings } from "../api/anime";
 
 const AnimeList = ({ refresh }) => {
   const [animeList, setAnimeList] = useState([]);
@@ -9,6 +9,8 @@ const AnimeList = ({ refresh }) => {
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({});
   const [search, setSearch] = useState("");
+  const [ratings, setRatings] = useState([]);
+  
 
   const fetchPage = (pageNum, limitVal = limit) => {
     if (search.trim() === "") {
@@ -28,6 +30,9 @@ const AnimeList = ({ refresh }) => {
 
   useEffect(() => {
     fetchPage(page, limit);
+    getAnimeRatings().then((res) => {
+          setRatings(res.data);
+        });
   }, [limit, page, search, refresh]);
 
   const nextPage = () => {
@@ -95,6 +100,7 @@ const AnimeList = ({ refresh }) => {
       <table>
         <thead>
           <tr>
+            <th>MAL_ID</th>
             <th>Nome</th>
             <th>Score</th>
             <th>Genere</th>
@@ -111,6 +117,9 @@ const AnimeList = ({ refresh }) => {
           {animeList.map(anime =>
             editingId === anime._id ? (
               <tr key={anime._id}>
+                <td>
+                  <input name="MAL_ID" value={editForm.MAL_ID} onChange={handleInputChange} disabled />
+                </td>
                 <td>
                   <input name="Name" value={editForm.Name} onChange={handleInputChange} />
                 </td>
@@ -133,7 +142,12 @@ const AnimeList = ({ refresh }) => {
                   <input name="Studios" value={editForm.Studios} onChange={handleInputChange} />
                 </td>
                 <td>
-                  <input name="Rating" value={editForm.Rating} onChange={handleInputChange} />
+                  <select name="Rating" value={editForm.Rating} onChange={handleInputChange} required>
+                    <option value="">Seleziona Rating</option>
+                    {ratings.map((r) => (
+                      <option key={r} value={r}>{r}</option>
+                    ))}
+                  </select>
                 </td>
                 <td>
                   <input name="Ranked" value={editForm.Ranked} onChange={handleInputChange} />
@@ -145,6 +159,7 @@ const AnimeList = ({ refresh }) => {
               </tr>
             ) : (
               <tr key={anime._id}>
+                <td>{anime.MAL_ID}</td>
                 <td>{anime.Name}</td>
                 <td>{anime.Score}</td>
                 <td>{anime.Genres}</td>

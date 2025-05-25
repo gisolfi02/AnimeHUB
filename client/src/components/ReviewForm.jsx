@@ -38,8 +38,27 @@ const ReviewForm = ({ onCreated }) => {
     <form onSubmit={handleSubmit}>
       <input name="user_id" value={form.user_id} onChange={handleChange} placeholder="User ID" />
       <input name="anime_id" value={form.anime_id} onChange={handleChange} placeholder="Anime ID" />
-      <input name="rating" value={form.rating} onChange={handleChange} placeholder="Rating" />
-      <input name="watching_status" value={form.watching_status} onChange={handleChange} placeholder="Status" />
+      <select name="rating" value={form.rating} onChange={handleChange} placeholder="Rating">
+        <option value="" disabled></option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+      <select name="watching_status" value={form.watching_status} onChange={handleChange} placeholder="Status">
+        <option value="" disabled></option>
+        <option value="1">In Corso</option>
+        <option value="2">Completato</option>
+        <option value="3">In Pausa</option>
+        <option value="4">Abbandonato</option>
+        <option value="5">Da Iniziare</option>
+      </select>
       <input name="watched_episodes" value={form.watched_episodes} onChange={handleChange} placeholder="Watched Ep." />
       <button type="submit">Aggiungi Review</button>
     </form>

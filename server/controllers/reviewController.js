@@ -91,3 +91,30 @@ exports.getFullReviewInfo = async (req, res) => {
 };
 
 
+exports.searchReviewByAnimeID = async (req, res) => {
+  try {
+      const query = req.query.q || "";
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 100;
+      const skip = (page - 1) * limit;
+  
+      const filter = query && !isNaN(Number(query))
+      ? { anime_id: Number(query) }
+      : {};
+  
+      const result = await Review.find(filter)
+        .skip(skip)
+        .limit(limit);
+  
+      const total = await Review.countDocuments(filter);
+  
+      res.json({
+        data: result,
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalResults: total
+      });
+    } catch (err) {
+      res.status(500).json({ message: "Errore ricerca", error: err.message });
+    }
+  };

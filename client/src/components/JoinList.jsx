@@ -29,7 +29,7 @@ const FullReviewList = () => {
       <h2>Review + Anime + Status</h2>
 
       <label>
-        Visualizza per pagina::
+        Visualizza per pagina:
         <select value={limit} onChange={(e) => setLimit(parseInt(e.target.value))}>
           <option value={10}>10</option>
           <option value={50}>50</option>

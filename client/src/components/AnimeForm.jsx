@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { createAnime } from "../api/anime";
+import { useState, useEffect } from "react";
+import { createAnime, getAnimeRatings, checkAnimeIdExists, getAnimeGenres, getAnimeProducers, getAnimeStudios } from "../api/anime";
 
 const AnimeForm = ({ onCreated }) => {
   const [form, setForm] = useState({
@@ -14,6 +14,28 @@ const AnimeForm = ({ onCreated }) => {
     Rating: "",
     Ranked: ""
   });
+  const [ratings, setRatings] = useState([]);
+  const [genresList, setGenresList] = useState([]);
+  const [producersList, setProducersList] = useState([]);
+  const [studiosList, setStudiosList] = useState([]);
+  const [error, setError] = useState("");
+
+  const airedRegex = /^([A-Z][a-z]{2} \d{1,2}, \d{4})( to (([A-Z][a-z]{2} \d{1,2}, \d{4})|\?))?$/;
+
+  useEffect(() => {
+    getAnimeRatings().then((res) => {
+      setRatings(res.data);
+    });
+    getAnimeGenres().then((res) => {
+      setGenresList(res.data.map(g => g.toLowerCase()));
+    });
+    getAnimeProducers().then((res) => {
+      setProducersList(res.data.map(p => p.toLowerCase()));
+    });
+    getAnimeStudios().then((res) => {
+      setStudiosList(res.data.map(s => s.toLowerCase()));
+    });
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,6 +43,68 @@ const AnimeForm = ({ onCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
+    // Controllo MAL_ID
+    const exists = await checkAnimeIdExists(form.MAL_ID);
+    if (exists) {
+      setError("MAL_ID già presente. Inserisci un ID diverso.");
+      return;
+    }
+
+    // Controllo Score
+    if(form.Score < 0 || form.Score > 10) {
+      setError("Score non valido");
+      return;
+    }
+
+    // Controllo Episodi
+    if(form.Episodes < 0) {
+      setError("Numero di episodi non valido");
+      return;
+    }
+
+    // Controllo Rating
+    if(form.Ranked < 0) {
+      setError("Posizione nel ranking non valida");
+      return;
+    }
+
+    // Contorllo Rilascio
+    if (!airedRegex.test(form.Aired.trim())) {
+      setError('Data di rilascio non valida');
+      return;
+    }
+
+    // Controllo generi
+    if (form.Genres) {
+      const inputGenres = form.Genres.split(",").map(g => g.trim().toLowerCase()).filter(Boolean);
+      const invalidGenres = inputGenres.filter(g => !genresList.includes(g));
+      if (invalidGenres.length > 0) {
+        setError(`Genere/i non valido/i: ${invalidGenres.join(", ")}`);
+        return;
+      }
+    }
+
+    // Controllo produttori
+    if (form.Producers) {
+      const inputProducers = form.Producers.split(",").map(p => p.trim().toLowerCase()).filter(Boolean);
+      const invalidProducers = inputProducers.filter(p => !producersList.includes(p));
+      if (invalidProducers.length > 0) {
+        setError(`Produttore/i non valido/i: ${invalidProducers.join(", ")}`);
+        return;
+      }
+    }
+
+    // Controllo studios
+    if (form.Studios) {
+      const inputStudios = form.Studios.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
+      const invalidStudios = inputStudios.filter(s => !studiosList.includes(s));
+      if (invalidStudios.length > 0) {
+        setError(`Studio/i non valido/i: ${invalidStudios.join(", ")}`);
+        return;
+      }
+    }
 
     const formattedForm = {
       ...form,
@@ -49,6 +133,7 @@ const AnimeForm = ({ onCreated }) => {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1rem" }}>
+      
       <input name="MAL_ID" type="number" value={form.MAL_ID} onChange={handleChange} placeholder="MAL ID" required />
       <input name="Name" value={form.Name} onChange={handleChange} placeholder="Nome Anime" required />
       <input name="Score" type="number" step="0.01" value={form.Score} onChange={handleChange} placeholder="Score" required />
@@ -57,9 +142,14 @@ const AnimeForm = ({ onCreated }) => {
       <input name="Aired" value={form.Aired} onChange={handleChange} placeholder="Periodo (es: Apr 3, 1998 to Apr 24, 1999)" />
       <input name="Producers" value={form.Producers} onChange={handleChange} placeholder="Produttori" />
       <input name="Studios" value={form.Studios} onChange={handleChange} placeholder="Studios" />
-      <input name="Rating" value={form.Rating} onChange={handleChange} placeholder="Rating (es: R - 17+)" />
+      <select name="Rating" value={form.Rating} onChange={handleChange} required>
+        <option value="">Seleziona Rating</option>
+        {ratings.map((r) => (
+          <option key={r} value={r}>{r}</option>
+        ))}
+      </select>
       <input name="Ranked" type="number" step="0.01" value={form.Ranked} onChange={handleChange} placeholder="Posizione nel ranking" />
-
+      {error && <div style={{ color: "red" }}>{error}</div>}
       <button type="submit">Aggiungi Anime</button>
     </form>
   );

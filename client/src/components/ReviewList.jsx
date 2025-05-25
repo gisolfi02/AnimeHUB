@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllReviews, deleteReview, updateReview } from "../api/review";
+import { getAllReviews, deleteReview, updateReview, searchReviewByAnimeID } from "../api/review";
 
 const ReviewList = () => {
     const [reviewList, setReviewList] = useState([]);
@@ -9,18 +9,27 @@ const ReviewList = () => {
 
     const [editingId, setEditingId] = useState(null);
     const [editForm, setEditForm] = useState({});
+    const [search, setSearch] = useState("");
 
     const fetchPage = (pageNum, limitVal = limit) => {
-        getAllReviews(pageNum, limitVal).then(res => {
-            setReviewList(res.data.data);
-            setPage(res.data.currentPage);
-            setTotalPages(res.data.totalPages);
-        });
+        if (search.trim() === "") {
+            getAllReviews(pageNum, limitVal).then(res => {
+                setReviewList(res.data.data);
+                setPage(res.data.currentPage);
+                setTotalPages(res.data.totalPages);
+            });
+        }else{
+            searchReviewByAnimeID(search, pageNum, limitVal).then(res => {
+                setReviewList(res.data.data);
+                setPage(res.data.currentPage);
+                setTotalPages(res.data.totalPages);
+            });
+        }
     };
 
     useEffect(() => {
         fetchPage(page, limit);
-    }, [limit]);
+    }, [limit, page, search]);
 
     const handleLimitChange = (e) => {
         setLimit(Number(e.target.value));
@@ -66,11 +75,24 @@ const ReviewList = () => {
         setEditingId(null);
     };
 
+    const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
+    };
+
     return (
         <div>
             <h2>Review List (pagina {page} di {totalPages})</h2>
 
-            <label htmlFor="review-limit">Visualizza per pagina: </label>
+            <input
+                type="text"
+                value={search}
+                onChange={handleSearchChange}
+                placeholder="Cerca review per anime_id..."
+                style={{ marginBottom: "1rem", padding: "0.5rem" }}
+            />
+
+            <label htmlFor="limit" style={{ marginLeft: "1rem" }}>Visualizza per pagina: </label>
             <select id="review-limit" value={limit} onChange={handleLimitChange}>
                 <option value={10}>10</option>
                 <option value={50}>50</option>
@@ -94,8 +116,27 @@ const ReviewList = () => {
                         <tr key={review._id}>
                             <td><input name="user_id" value={editForm.user_id} onChange={handleInputChange} /></td>
                             <td><input name="anime_id" value={editForm.anime_id} onChange={handleInputChange} /></td>
-                            <td><input name="rating" value={editForm.rating} onChange={handleInputChange} /></td>
-                            <td><input name="watching_status" value={editForm.watching_status} onChange={handleInputChange} /></td>
+                            <td><select name="rating" value={editForm.rating} onChange={handleInputChange}>
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
+                                <option value={4}>4</option>
+                                <option value={5}>5</option>
+                                <option value={6}>6</option>
+                                <option value={7}>7</option>
+                                <option value={8}>8</option>
+                                <option value={9}>9</option>
+                                <option value={10}>10</option>
+                            </select>
+                            </td>
+                            <td><select name="watching_status" value={editForm.watching_status} onChange={handleInputChange}>
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
+                                <option value={4}>4</option>
+                                <option value={5}>5</option>
+                            </select>
+                            </td>
                             <td><input name="watched_episodes" value={editForm.watched_episodes} onChange={handleInputChange} /></td>
                             <td>
                                 <button onClick={() => handleSave(review._id)}>Salva</button>
