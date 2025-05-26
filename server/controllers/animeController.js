@@ -82,6 +82,17 @@ exports.checkAnimeIdExists = async (req, res) => {
   }
 };
 
+exports.checkAnimeRatingExists = async (req, res) => {
+  try {
+    const rating = parseInt(req.params.rating);
+    const exists = await Anime.exists({ Rating: rating });
+    res.json({ exists: !!exists });
+  } catch (err) {
+    res.status(500).json({ message: "Errore controllo rating", error: err.message });
+  }
+};
+
+
 exports.getDistinctGenres = async (req, res) => {
   try {
     const genresRaw = await Anime.distinct("Genres", { Genres: { $ne: null, $ne: "" } });

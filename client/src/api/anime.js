@@ -15,3 +15,7 @@ export const checkAnimeIdExists = async (malId) => {
     const res = await axios.get(`${API_URL}/check-id/${malId}`);
     return res.data.exists;
 };
+export const checkAnimeRatingExists = async (rating) => {
+    const res = await axios.get(`${API_URL}/ratings/${rating}`);
+    return res.data.exists;
+}

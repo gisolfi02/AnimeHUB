@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName, getAnimeRatings } from "../api/anime";
+import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName, getAnimeRatings, getAnimeGenres, getAnimeProducers, getAnimeStudios, checkAnimeRatingExists } from "../api/anime";
 
 const AnimeList = ({ refresh }) => {
   const [animeList, setAnimeList] = useState([]);
@@ -10,7 +10,11 @@ const AnimeList = ({ refresh }) => {
   const [editForm, setEditForm] = useState({});
   const [search, setSearch] = useState("");
   const [ratings, setRatings] = useState([]);
-  
+  const [genresList, setGenresList] = useState([]);
+  const [producersList, setProducersList] = useState([]);
+  const [studiosList, setStudiosList] = useState([]);
+  const [error, setError] = useState("");
+  const airedRegex = /^([A-Z][a-z]{2} \d{1,2}, \d{4})( to (([A-Z][a-z]{2} \d{1,2}, \d{4})|\?))?$/;
 
   const fetchPage = (pageNum, limitVal = limit) => {
     if (search.trim() === "") {
@@ -31,8 +35,17 @@ const AnimeList = ({ refresh }) => {
   useEffect(() => {
     fetchPage(page, limit);
     getAnimeRatings().then((res) => {
-          setRatings(res.data);
-        });
+      setRatings(res.data);
+    });
+    getAnimeGenres().then((res) => {
+      setGenresList(res.data.map(g => g.toLowerCase()));
+    });
+    getAnimeProducers().then((res) => {
+      setProducersList(res.data.map(p => p.toLowerCase()));
+    });
+    getAnimeStudios().then((res) => {
+      setStudiosList(res.data.map(s => s.toLowerCase()));
+    });
   }, [limit, page, search, refresh]);
 
   const nextPage = () => {
@@ -63,6 +76,83 @@ const AnimeList = ({ refresh }) => {
   };
 
   const handleSave = async (id) => {
+    setError("");
+
+    // Controllo Name
+    if (!editForm.Name || editForm.Name.trim() === "") {
+      setError("Nome non valido");
+      return;
+    }
+
+    // Controllo Score
+    if(editForm.Score < 0 || editForm.Score > 10 || editForm.Score == "") {
+      setError("Score non valido");
+      return;
+    }
+
+    // Controllo Generi
+    if (editForm.Genres && editForm.Genres.trim() !== "") {
+      const inputGenres = editForm.Genres.split(",").map(g => g.trim().toLowerCase()).filter(Boolean);
+      const invalidGenres = inputGenres.filter(g => !genresList.includes(g));
+      if (invalidGenres.length > 0) {
+        setError(`Genere/i non valido/i: ${invalidGenres.join(", ")}`);
+        return;
+      }
+    }else {
+      setError("Generi non validi");
+      return;
+    }
+
+    // Controllo Episodi
+    if(editForm.Episodes < 0 || editForm.Episodes =="") {
+      setError("Numero di episodi non valido");
+      return;
+    }
+
+    // Controllo Data rilascio
+    if (!airedRegex.test((editForm.Aired || "").trim())) {
+      setError('Data di rilascio non valida');
+      return;
+    }
+
+    // Controllo Produttori
+    if (editForm.Producers && editForm.Producers.trim() !== "") {
+      const inputProducers = editForm.Producers.split(",").map(p => p.trim().toLowerCase()).filter(Boolean);
+      const invalidProducers = inputProducers.filter(p => !producersList.includes(p));
+      if (invalidProducers.length > 0) {
+        setError(`Produttore/i non valido/i: ${invalidProducers.join(", ")}`);
+        return;
+      }
+    }else {
+      setError("Produttori non validi");
+      return;
+    }
+    
+    // Controllo Studi
+    if (editForm.Studios && editForm.Studios.trim() !== "") {
+      const inputStudios = editForm.Studios.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
+      const invalidStudios = inputStudios.filter(s => !studiosList.includes(s));
+      if (invalidStudios.length > 0) {
+        setError(`Studio/i non valido/i: ${invalidStudios.join(", ")}`);
+        return;
+      }
+    }else {
+      setError("Studios non validi");
+      return;
+    }
+
+    // Controllo Ranking
+    if(editForm.Ranked < 0 || editForm.Ranked=="") {
+      setError("Posizione nel ranking non valida");
+      return;
+    }else {
+      const ratingExists = await checkAnimeRatingExists(editForm.Rating);
+      if (!ratingExists) {
+        setError("Posizione nel ranking già presente")
+        return;
+      }
+    }
+
     await updateAnime(id, editForm);
     setEditingId(null);
     fetchPage(page, limit);
@@ -97,6 +187,8 @@ const AnimeList = ({ refresh }) => {
         <option value={200}>200</option>
       </select>
 
+      {error && <div style={{ color: "red", margin: "0.5rem 0" }}>{error}</div>}
+
       <table>
         <thead>
           <tr>
@@ -124,13 +216,13 @@ const AnimeList = ({ refresh }) => {
                   <input name="Name" value={editForm.Name} onChange={handleInputChange} />
                 </td>
                 <td>
-                  <input name="Score" value={editForm.Score} onChange={handleInputChange} />
+                  <input name="Score" type="number" value={editForm.Score} onChange={handleInputChange} />
                 </td>
                 <td>
                   <input name="Genres" value={editForm.Genres} onChange={handleInputChange} />
                 </td>
                 <td>
-                  <input name="Episodes" value={editForm.Episodes} onChange={handleInputChange} />
+                  <input name="Episodes" type="number" value={editForm.Episodes} onChange={handleInputChange} />
                 </td>
                 <td>
                   <input name="Aired" value={editForm.Aired} onChange={handleInputChange} />
@@ -150,7 +242,7 @@ const AnimeList = ({ refresh }) => {
                   </select>
                 </td>
                 <td>
-                  <input name="Ranked" value={editForm.Ranked} onChange={handleInputChange} />
+                  <input name="Ranked" type="number" value={editForm.Ranked} onChange={handleInputChange} />
                 </td>
                 <td>
                   <button onClick={() => handleSave(anime._id)}>Salva</button>

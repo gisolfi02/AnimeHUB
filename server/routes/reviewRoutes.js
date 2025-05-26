@@ -8,5 +8,6 @@ router.put("/:id", reviewController.updateReview);
 router.delete("/:id", reviewController.deleteReview);
 router.get("/full", reviewController.getFullReviewInfo);
 router.get("/search", reviewController.searchReviewByAnimeID);
+router.get("/check", reviewController.checkReviewByAnimeAndUserID);
 
 module.exports = router;

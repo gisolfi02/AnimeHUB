@@ -6,10 +6,11 @@ const ReviewList = () => {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(100);
     const [totalPages, setTotalPages] = useState(1);
-
     const [editingId, setEditingId] = useState(null);
     const [editForm, setEditForm] = useState({});
     const [search, setSearch] = useState("");
+    const [error, setError] = useState("");
+    
 
     const fetchPage = (pageNum, limitVal = limit) => {
         if (search.trim() === "") {
@@ -59,6 +60,14 @@ const ReviewList = () => {
     };
 
     const handleSave = async (id) => {
+        setError("");
+
+        //Controllo Watching Episodes
+        if (editForm.watched_episodes < 0 || editForm.watched_episodes == "") {
+            setError("Watched Episodes non valido");
+            return;
+        }
+
         await updateReview(id, {
             ...editForm,
             user_id: Number(editForm.user_id),
@@ -72,6 +81,7 @@ const ReviewList = () => {
     };
 
     const handleCancel = () => {
+        setError("");
         setEditingId(null);
     };
 
@@ -99,6 +109,7 @@ const ReviewList = () => {
                 <option value={100}>100</option>
                 <option value={200}>200</option>
             </select>
+            {error && <div style={{ color: "red" }}>{error}</div>}
 
             <table>
                 <thead>
@@ -114,8 +125,8 @@ const ReviewList = () => {
                 <tbody>
                     {reviewList.map(review => editingId === review._id ? (
                         <tr key={review._id}>
-                            <td><input name="user_id" value={editForm.user_id} onChange={handleInputChange} /></td>
-                            <td><input name="anime_id" value={editForm.anime_id} onChange={handleInputChange} /></td>
+                            <td><input name="user_id" value={editForm.user_id} onChange={handleInputChange} disabled/></td>
+                            <td><input name="anime_id" value={editForm.anime_id} onChange={handleInputChange} disabled/></td>
                             <td><select name="rating" value={editForm.rating} onChange={handleInputChange}>
                                 <option value={1}>1</option>
                                 <option value={2}>2</option>
@@ -137,7 +148,7 @@ const ReviewList = () => {
                                 <option value={5}>5</option>
                             </select>
                             </td>
-                            <td><input name="watched_episodes" value={editForm.watched_episodes} onChange={handleInputChange} /></td>
+                            <td><input name="watched_episodes" type="number" value={editForm.watched_episodes} onChange={handleInputChange} /></td>
                             <td>
                                 <button onClick={() => handleSave(review._id)}>Salva</button>
                                 <button onClick={handleCancel}>Annulla</button>

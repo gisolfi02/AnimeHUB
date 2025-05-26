@@ -118,3 +118,15 @@ exports.searchReviewByAnimeID = async (req, res) => {
       res.status(500).json({ message: "Errore ricerca", error: err.message });
     }
   };
+
+
+exports.checkReviewByAnimeAndUserID = async (req, res) => {
+  try {
+    const anime_id = parseInt(req.query.anime_id);
+    const user_id = parseInt(req.query.user_id);
+    const exists = await Review.exists({ anime_id: anime_id, user_id: user_id });
+    res.json({ exists: !!exists });
+  } catch (err) {
+    res.status(500).json({ message: "Errore controllo review", error: err.message });
+  }
+};

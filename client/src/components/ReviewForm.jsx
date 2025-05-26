@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { createReview } from "../api/review";
+import { createReview, checkReviewByAnimeAndUserID } from "../api/review";
+import { checkAnimeIdExists } from "../api/anime";
 
 const ReviewForm = ({ onCreated }) => {
   const [form, setForm] = useState({
@@ -9,6 +10,8 @@ const ReviewForm = ({ onCreated }) => {
     watching_status: "",
     watched_episodes: ""
   });
+  const [error, setError] = useState("");
+
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,6 +19,37 @@ const ReviewForm = ({ onCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+
+
+    // Controllo user ID
+    if (form.user_id < 0 || form.user_id == "") {
+      setError("User ID non valido");
+      return;
+    }
+
+    // Controllo Anime ID
+    const exists = await checkAnimeIdExists(form.anime_id);
+    if (!exists) { 
+      setError("Anime ID non valido. Inserisci un ID esistente.");
+      return;
+    }
+
+    // Controllo Watching Episodes
+    if (form.watched_episodes < 0 || form.watched_episodes == "") {
+      setError("Watched Episodes non valido");
+      return;
+    }
+
+    // Controllo user ID e Anime ID 
+    const reviewExists = await checkReviewByAnimeAndUserID(form.anime_id, form.user_id);
+    if (reviewExists) {
+      setError("Review già esistente per questo Anime e User ID.");
+      return;
+    }
+
+
+
     await createReview({
       ...form,
       user_id: Number(form.user_id),
@@ -36,9 +70,9 @@ const ReviewForm = ({ onCreated }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="user_id" value={form.user_id} onChange={handleChange} placeholder="User ID" />
-      <input name="anime_id" value={form.anime_id} onChange={handleChange} placeholder="Anime ID" />
-      <select name="rating" value={form.rating} onChange={handleChange} placeholder="Rating">
+      <input name="user_id" type="number" value={form.user_id} onChange={handleChange} placeholder="User ID" required/>
+      <input name="anime_id" type="number" value={form.anime_id} onChange={handleChange} placeholder="Anime ID" required/>
+      <select name="rating" value={form.rating} onChange={handleChange} placeholder="Rating" required>
         <option value="" disabled></option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -51,7 +85,7 @@ const ReviewForm = ({ onCreated }) => {
         <option value="9">9</option>
         <option value="10">10</option>
       </select>
-      <select name="watching_status" value={form.watching_status} onChange={handleChange} placeholder="Status">
+      <select name="watching_status" value={form.watching_status} onChange={handleChange} placeholder="Status" required>
         <option value="" disabled></option>
         <option value="1">In Corso</option>
         <option value="2">Completato</option>
@@ -59,9 +93,11 @@ const ReviewForm = ({ onCreated }) => {
         <option value="4">Abbandonato</option>
         <option value="5">Da Iniziare</option>
       </select>
-      <input name="watched_episodes" value={form.watched_episodes} onChange={handleChange} placeholder="Watched Ep." />
+      <input name="watched_episodes" type="number" value={form.watched_episodes} onChange={handleChange} placeholder="Watched Ep." required/>
       <button type="submit">Aggiungi Review</button>
+      {error && <div style={{ color: "red" }}>{error}</div>}
     </form>
+    
   );
 };
 
