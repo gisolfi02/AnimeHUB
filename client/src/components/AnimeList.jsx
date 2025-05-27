@@ -1,4 +1,4 @@
-import '../assets/AnimeList.css';
+//import '../assets/AnimeList.css';
 import { useEffect, useState } from "react";
 import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName, getAnimeRatings, getAnimeGenres, getAnimeProducers, getAnimeStudios, checkAnimeRatingExists } from "../api/anime";
 

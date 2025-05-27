@@ -154,11 +154,11 @@ const AnimeForm = ({ onCreated }) => {
             ))}
           </select>
           <input name="Ranked" type="number" step="0.01" value={form.Ranked} onChange={handleChange} placeholder="Posizione nel ranking" />
-          {error && <div style={{ color: "red" }}>{error}</div>}
         </div>
       </div>
+      {error && <div className='errorContainer'>{error}</div>}
+      <button type="submit">Aggiungi Anime</button>
     </form>
-    <button type="submit">Aggiungi Anime</button>
     </div>
   );
 };

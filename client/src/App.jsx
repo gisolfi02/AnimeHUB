@@ -21,14 +21,15 @@ function App() {
         <li><Link to="/anime-list"> animeList </Link></li>
 
       </ul></nav>
-      <Routes>
-        <Route path="/anime-form" element={<AnimeForm onCreated={triggerRefresh} />} />
-        <Route path="/anime-list" element={<AnimeList refresh={refresh} />} />
-        <Route path="/review-form" element={<ReviewForm onCreated={triggerRefresh} />} />
-        <Route path="/review-list" element={<ReviewList key={refresh} />} />
-        <Route path="/join-list" element={<JoinList />} />
-  
-      </Routes>
+      <main style={{margin:"50px 0px"}}>
+        <Routes>
+          <Route path="/anime-form" element={<AnimeForm onCreated={triggerRefresh} />} />
+          <Route path="/anime-list" element={<AnimeList refresh={refresh} />} />
+          <Route path="/review-form" element={<ReviewForm onCreated={triggerRefresh} />} />
+          <Route path="/review-list" element={<ReviewList key={refresh} />} />
+          <Route path="/join-list" element={<JoinList />} />
+        </Routes>
+      </main>
       <Footer />
     </Router>
   );
