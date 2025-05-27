@@ -16,7 +16,11 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <nav><ul><li><Link to="/anime-form"> aa </Link></li></ul></nav>
+      <nav><ul>
+        <li><Link to="/anime-form"> animeForm </Link></li>
+        <li><Link to="/anime-list"> animeList </Link></li>
+
+      </ul></nav>
       <Routes>
         <Route path="/anime-form" element={<AnimeForm onCreated={triggerRefresh} />} />
         <Route path="/anime-list" element={<AnimeList refresh={refresh} />} />

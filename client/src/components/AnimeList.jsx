@@ -1,3 +1,4 @@
+import '../assets/AnimeList.css';
 import { useEffect, useState } from "react";
 import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName, getAnimeRatings, getAnimeGenres, getAnimeProducers, getAnimeStudios, checkAnimeRatingExists } from "../api/anime";
 
@@ -250,8 +251,11 @@ const AnimeList = ({ refresh }) => {
         <option value="Score_asc">Score Crescente</option>
         <option value="Score_desc">Score Decrescente</option>
       </select>
+      /*fine primo*/
 
+     
       <div style={{ marginBottom: "1rem" }}>
+         /*generi*/
         <label style={{ marginRight: "0.5rem" }}>Generi:</label>
         <span>
           {genresList.map(g => (
@@ -266,6 +270,7 @@ const AnimeList = ({ refresh }) => {
             </label>
           ))}
         </span>
+        /*produttori*/
         <label style={{ margin: "0 0.5rem 0 1rem" }}>Produttore:</label>
         <select value={selectedProducer} onChange={handleProducerChange}>
           <option value="">Tutti</option>
@@ -273,6 +278,7 @@ const AnimeList = ({ refresh }) => {
             <option key={p} value={p}>{p}</option>
           ))}
         </select>
+        /*studio*/
         <label style={{ margin: "0 0.5rem 0 1rem" }}>Studio:</label>
         <select value={selectedStudio} onChange={handleStudioChange}>
           <option value="">Tutti</option>
@@ -280,6 +286,7 @@ const AnimeList = ({ refresh }) => {
             <option key={s} value={s}>{s}</option>
           ))}
         </select>
+        /*vall*/
         <label style={{ margin: "0 0.5rem 0 1rem" }}>Valutazione:</label>
         <span>
           {ratings.map(r => (
