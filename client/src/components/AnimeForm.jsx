@@ -157,4 +157,4 @@ const AnimeForm = ({ onCreated }) => {
 
 export default AnimeForm;
 
-//boooo
+//booooo
