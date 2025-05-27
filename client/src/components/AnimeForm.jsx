@@ -137,7 +137,7 @@ const AnimeForm = ({ onCreated }) => {
     <form onSubmit={handleSubmit}>
       <div className='splitContainer'>
         <div className='leftContainer'>
-          <input name="MAL_ID" type="number" value={form.MAL_ID} onChange={handleChange} placeholder="MAL ID" required />
+          <input name="MAL_ID" type="number" value={form.MAL_ID} onChange={handleChange} placeholder="MAIL ID" required />
           <input name="Name" value={form.Name} onChange={handleChange} placeholder="Nome Anime" required />
           <input name="Score" type="number" step="0.01" value={form.Score} onChange={handleChange} placeholder="Score" required />
           <input name="Genres" value={form.Genres} onChange={handleChange} placeholder="Generi (es: Action, Drama)" />
