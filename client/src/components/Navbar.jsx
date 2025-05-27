@@ -1,10 +1,11 @@
-
-
+import logo from "../assets/images/Logo 1.png"
+import "../assets/css/Navbar.css";
 function Navbar() {
   return (
-    <navbar>
-      <h2>Benvenuti su AnimeHUB</h2>
-    </navbar>
+    <nav>
+      <img src={logo} alt="AnimeHUB" className="Logo"/>
+      <h2 className="h2Navbar">Benvenuti su AnimeHUB</h2>
+    </nav>
   );
 }
 
