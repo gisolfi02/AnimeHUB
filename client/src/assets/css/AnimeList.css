@@ -1,0 +1,134 @@
+/*
+#eaf2e8
+#b3cea9
+#7cab6b
+#4f7241
+#24341e
+*/
+
+.animeListContainer {
+  overflow-x: auto;
+  border: 3px solid #24341e;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(179, 198, 201, 0.6);
+  background-color: #eaf2e8;
+  margin-top: 1rem;
+}
+
+/* Tabella */
+.animeListContainer {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Poppins', sans-serif;
+  background: #eaf2e8;
+}
+
+/* Intestazioni */
+.animeListContainer thead {
+  background: linear-gradient(to right, #4f7241, #7cab6b);
+  color: #eaf2e8;
+  text-align: left;
+}
+
+.animeListContainer th, .animeListContainer td {
+  padding: 12px;
+  border: 1px solid #b3cea9;
+}
+
+/* Righe alternate */
+.animeListContainer tbody tr:nth-child(even) {
+  background-color: #f0f6ef;
+}
+
+/* Pulsanti azioni */
+.animeListContainer button {
+  padding: 6px 12px;
+  margin-right: 6px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid #24341e;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.animeListContainer button:hover {
+  transform: scale(1.05);
+}
+
+.animeListContainer button:first-of-type {
+  background: linear-gradient(to left, #4f7241, #7cab6b);
+  color: #fff;
+}
+
+.animeListContainer button:last-of-type {
+  background: linear-gradient(to left, #b64040, #7a1f1f);
+  color: #fff;
+}
+
+.CercaVisualizzaOrdina {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.CercaVisualizzaOrdina input,
+.CercaVisualizzaOrdina select {
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: 2px solid #24341e;
+  border-radius: 8px;
+  background-color: #eaf2e8;
+  font-family: 'Poppins', sans-serif;
+  height: 44px;
+  min-width: 160px;
+  box-shadow: inset 1px 1px 4px #b0c8aa;
+  transition: all 0.2s ease;
+}
+
+.CercaVisualizzaOrdina input:focus,
+.CercaVisualizzaOrdina select:focus {
+  outline: none;
+  border-color: #4f7241;
+  box-shadow: 0 0 0 2px rgba(79, 114, 65, 0.2);
+}
+
+.CercaVisualizzaOrdina label {
+  font-weight: 500;
+  font-size: 1rem;
+  color: #24341e;
+  font-family: 'Poppins', sans-serif;
+}
+
+.generi {
+  margin-bottom: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.generi label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.generi-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 0;
+  background-color: #eaf2e8;
+  border: 2px solid #24341e;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.generi-container label {
+  font-weight: normal;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}

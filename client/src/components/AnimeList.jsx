@@ -1,4 +1,4 @@
-import '../assets/AnimeList.css';
+import '../assets/css/AnimeList.css';
 import { useEffect, useState } from "react";
 import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName, getAnimeRatings, getAnimeGenres, getAnimeProducers, getAnimeStudios, checkAnimeRatingExists } from "../api/anime";
 
@@ -222,55 +222,57 @@ const AnimeList = ({ refresh }) => {
   };
 
   return (
-    <div>
+    <div className='animeListContainer'>
       <h2>Anime List (pagina {page} di {totalPages})</h2>
+      <div className='CercaVisualizzaOrdina'>
+        <input
+          type="text"
+          value={search}
+          onChange={handleSearchChange}
+          placeholder="Cerca anime per nome..."
+          style={{ marginBottom: "1rem", padding: "0.5rem" }}
+        />
 
-      <input
-        type="text"
-        value={search}
-        onChange={handleSearchChange}
-        placeholder="Cerca anime per nome..."
-        style={{ marginBottom: "1rem", padding: "0.5rem" }}
-      />
+        <label htmlFor="limit" style={{ marginLeft: "1rem" }}>Visualizza per pagina: </label>
+        <select id="limit" value={limit} onChange={handleLimitChange}>
+          <option value={10}>10</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
+          <option value={200}>200</option>
+        </select>
 
-      <label htmlFor="limit" style={{ marginLeft: "1rem" }}>Visualizza per pagina: </label>
-      <select id="limit" value={limit} onChange={handleLimitChange}>
-        <option value={10}>10</option>
-        <option value={50}>50</option>
-        <option value={100}>100</option>
-        <option value={200}>200</option>
-      </select>
-
-      
-      <label htmlFor="sort" style={{ marginLeft: "1rem" }}>Ordina per: </label>
-      <select id="sort" value={sort} onChange={handleSortChange}>
-        <option value="MAL_ID_asc">MAL_ID Crescente</option>
-        <option value="MAL_ID_desc">MAL_ID Decrescente</option>
-        <option value="Name_asc">Nome Crescente</option>
-        <option value="Name_desc">Nome Decrescente</option>
-        <option value="Score_asc">Score Crescente</option>
-        <option value="Score_desc">Score Decrescente</option>
-      </select>
-      /*fine primo*/
+        
+        <label htmlFor="sort" style={{ marginLeft: "1rem" }}>Ordina per: </label>
+        <select id="sort" value={sort} onChange={handleSortChange}>
+          <option value="MAL_ID_asc">MAL_ID Crescente</option>
+          <option value="MAL_ID_desc">MAL_ID Decrescente</option>
+          <option value="Name_asc">Nome Crescente</option>
+          <option value="Name_desc">Nome Decrescente</option>
+          <option value="Score_asc">Score Crescente</option>
+          <option value="Score_desc">Score Decrescente</option>
+        </select>
+      </div>
 
      
-      <div style={{ marginBottom: "1rem" }}>
-         /*generi*/
-        <label style={{ marginRight: "0.5rem" }}>Generi:</label>
-        <span>
-          {genresList.map(g => (
-            <label key={g} style={{ marginRight: "0.5rem" }}>
-              <input
-                type="checkbox"
-                value={g}
-                checked={selectedGenres.includes(g)}
-                onChange={handleGenreCheckbox}
-              />
-              {g}
-            </label>
-          ))}
-        </span>
-        /*produttori*/
+      <div className='filtri' style={{ marginBottom: "1rem" }}>
+        <div className="generi">
+  <label className="generi-label">Generi:</label>
+  <div className="generi-container">
+    {genresList.map(g => (
+      <label key={g}>
+        <input
+          type="checkbox"
+          value={g}
+          checked={selectedGenres.includes(g)}
+          onChange={handleGenreCheckbox}
+        />
+        {g}
+      </label>
+    ))}
+  </div>
+</div>
+        
+        <div className='produttori'>
         <label style={{ margin: "0 0.5rem 0 1rem" }}>Produttore:</label>
         <select value={selectedProducer} onChange={handleProducerChange}>
           <option value="">Tutti</option>
@@ -278,16 +280,20 @@ const AnimeList = ({ refresh }) => {
             <option key={p} value={p}>{p}</option>
           ))}
         </select>
-        /*studio*/
-        <label style={{ margin: "0 0.5rem 0 1rem" }}>Studio:</label>
+        </div>
+        
+        <div className='studio'>
+          <label style={{ margin: "0 0.5rem 0 1rem" }}>Studio:</label>
         <select value={selectedStudio} onChange={handleStudioChange}>
           <option value="">Tutti</option>
           {studiosList.map(s => (
             <option key={s} value={s}>{s}</option>
           ))}
         </select>
-        /*vall*/
-        <label style={{ margin: "0 0.5rem 0 1rem" }}>Valutazione:</label>
+        </div>
+        
+        <div className='valutazione'>
+          <label style={{ margin: "0 0.5rem 0 1rem" }}>Valutazione:</label>
         <span>
           {ratings.map(r => (
             <label key={r} style={{ marginRight: "0.5rem" }}>
@@ -301,12 +307,13 @@ const AnimeList = ({ refresh }) => {
             </label>
           ))}
         </span>
+        </div>
       </div>
 
       {error && <div style={{ color: "red", margin: "0.5rem 0" }}>{error}</div>}
 
       <table>
-        <thead>
+        <thead className='headTable'>
           <tr>
             <th>MAL_ID</th>
             <th>Nome</th>
@@ -321,7 +328,7 @@ const AnimeList = ({ refresh }) => {
             <th>Azioni</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='bodyTable'>
           {animeList.length === 0 ? (
             <tr>
               <td colSpan={11} style={{ textAlign: "center" }}>Nessun Risultato</td>
