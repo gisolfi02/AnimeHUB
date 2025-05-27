@@ -5,9 +5,29 @@ exports.getAllAnime = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 100;
     const skip = (page - 1) * limit;
+    const sortField = req.query.sortField || "";
+    const sortOrder = parseInt(req.query.sortOrder) || 1;
 
-    const anime = await Anime.find().skip(skip).limit(limit);
-    const total = await Anime.countDocuments();
+    // Filtri multipli
+    const filter = {};
+    if (req.query["genres[]"]) {
+      const genres = Array.isArray(req.query["genres[]"]) ? req.query["genres[]"] : [req.query["genres[]"]];
+      filter.$and = genres.map(g => ({
+        Genres: { $regex: new RegExp(`(^|,\\s*)${g}(,|$)`, "i") }
+      }));
+    }
+    if (req.query.producer) filter.Producers = { $regex: new RegExp(`(^|,\\s*)${req.query.producer}(,|$)`, "i") };
+    if (req.query.studio) filter.Studios = { $regex: new RegExp(`(^|,\\s*)${req.query.studio}(,|$)`, "i") };
+    if (req.query["ratings[]"]) {
+      const ratings = Array.isArray(req.query["ratings[]"]) ? req.query["ratings[]"] : [req.query["ratings[]"]];
+      filter.Rating = { $in: ratings };
+    }
+
+    const anime = await Anime.find(filter)
+      .sort({ [sortField]: sortOrder })
+      .skip(skip)
+      .limit(limit);
+    const total = await Anime.countDocuments(filter);
 
     res.json({
       data: anime,
@@ -41,12 +61,29 @@ exports.searchAnimeByName = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 100;
     const skip = (page - 1) * limit;
+    const sortField = req.query.sortField || "";
+    const sortOrder = parseInt(req.query.sortOrder) || 1;
 
+    // Filtri multipli
     const filter = query
       ? { Name: { $regex: query, $options: "i" } }
       : {};
 
+    if (req.query["genres[]"]) {
+      const genres = Array.isArray(req.query["genres[]"]) ? req.query["genres[]"] : [req.query["genres[]"]];
+      filter.$and = genres.map(g => ({
+        Genres: { $regex: new RegExp(`(^|,\\s*)${g}(,|$)`, "i") }
+      }));
+    }
+    if (req.query.producer) filter.Producers = { $regex: new RegExp(`(^|,\\s*)${req.query.producer}(,|$)`, "i") };
+    if (req.query.studio) filter.Studios = { $regex: new RegExp(`(^|,\\s*)${req.query.studio}(,|$)`, "i") };
+    if (req.query["ratings[]"]) {
+      const ratings = Array.isArray(req.query["ratings[]"]) ? req.query["ratings[]"] : [req.query["ratings[]"]];
+      filter.Rating = { $in: ratings };
+    }
+
     const result = await Anime.find(filter)
+      .sort({ [sortField]: sortOrder })
       .skip(skip)
       .limit(limit);
 

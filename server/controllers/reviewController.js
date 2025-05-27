@@ -5,8 +5,10 @@ exports.getAllReviews = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 100;
     const skip = (page - 1) * limit;
+    const sortField = req.query.sortField || "";
+    const sortOrder = parseInt(req.query.sortOrder) || 1;
 
-    const reviews = await Review.find().skip(skip).limit(limit);
+    const reviews = await Review.find().skip(skip).limit(limit).sort({ [sortField]: sortOrder });
     const total = await Review.countDocuments();
 
     res.json({
@@ -40,8 +42,19 @@ exports.getFullReviewInfo = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
+    const sortField = req.query.sortField || "";
+    const sortOrder = parseInt(req.query.sortOrder) || 1;
 
-    const result = await Review.aggregate([
+    const ids = await Review
+      .find({})
+      .sort({ [sortField]: sortOrder })
+      .skip(skip)
+      .limit(limit)
+      .select('_id');
+    const idList = ids.map(r => r._id);
+
+    const pipeline = [
+      { $match: { _id: { $in: idList } } },
       {
         $lookup: {
           from: "Anime",
@@ -72,11 +85,9 @@ exports.getFullReviewInfo = async (req, res) => {
           studios: "$anime.Studios",
           status_description: "$status.description"
         }
-      },
-      { $skip: skip },
-      { $limit: limit }
-    ]);
-
+      }
+    ];
+    const result = await Review.aggregate(pipeline);
     const total = await Review.countDocuments();
 
     res.json({
@@ -97,6 +108,8 @@ exports.searchReviewByAnimeID = async (req, res) => {
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 100;
       const skip = (page - 1) * limit;
+      const sortField = req.query.sortField || "";
+      const sortOrder = parseInt(req.query.sortOrder) || 1;
   
       const filter = query && !isNaN(Number(query))
       ? { anime_id: Number(query) }
@@ -104,7 +117,8 @@ exports.searchReviewByAnimeID = async (req, res) => {
   
       const result = await Review.find(filter)
         .skip(skip)
-        .limit(limit);
+        .limit(limit)
+        .sort({ [sortField]: sortOrder });
   
       const total = await Review.countDocuments(filter);
   

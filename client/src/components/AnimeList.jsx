@@ -14,17 +14,37 @@ const AnimeList = ({ refresh }) => {
   const [producersList, setProducersList] = useState([]);
   const [studiosList, setStudiosList] = useState([]);
   const [error, setError] = useState("");
+  const [sort, setSort] = useState("");
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedProducer, setSelectedProducer] = useState("");
+  const [selectedStudio, setSelectedStudio] = useState("");
+  const [selectedRatings, setSelectedRatings] = useState([]);
   const airedRegex = /^([A-Z][a-z]{2} \d{1,2}, \d{4})( to (([A-Z][a-z]{2} \d{1,2}, \d{4})|\?))?$/;
 
-  const fetchPage = (pageNum, limitVal = limit) => {
+  const fetchPage = (pageNum, limitVal = limit, sortVal = sort) => {
+    let sortField = "MAL_ID";
+    let sortOrder = 1;
+    if (sortVal === "MAL_ID_desc") { sortField = "MAL_ID"; sortOrder = -1; }
+    if (sortVal === "Name_asc") { sortField = "Name"; sortOrder = 1; }
+    if (sortVal === "Name_desc") { sortField = "Name"; sortOrder = -1; }
+    if (sortVal === "Score_asc") { sortField = "Score"; sortOrder = 1; }
+    if (sortVal === "Score_desc") { sortField = "Score"; sortOrder = -1; }
+
+    const filters = {
+      genres: selectedGenres,
+      producer: selectedProducer,
+      studio: selectedStudio,
+      ratings: selectedRatings
+    };
+
     if (search.trim() === "") {
-      getAllAnime(pageNum, limitVal).then(res => {
+      getAllAnime(pageNum, limitVal, sortField, sortOrder, filters).then(res => {
         setAnimeList(res.data.data);
         setTotalPages(res.data.totalPages);
         setPage(res.data.currentPage);
       });
     } else {
-      searchAnimeByName(search, pageNum, limitVal).then(res => {
+      searchAnimeByName(search, pageNum, limitVal, sortField, sortOrder, filters).then(res => {
         setAnimeList(res.data.data);
         setTotalPages(res.data.totalPages);
         setPage(res.data.currentPage);
@@ -33,7 +53,7 @@ const AnimeList = ({ refresh }) => {
   };
 
   useEffect(() => {
-    fetchPage(page, limit);
+    fetchPage(page, limit, sort);
     getAnimeRatings().then((res) => {
       setRatings(res.data);
     });
@@ -46,7 +66,7 @@ const AnimeList = ({ refresh }) => {
     getAnimeStudios().then((res) => {
       setStudiosList(res.data.map(s => s.toLowerCase()));
     });
-  }, [limit, page, search, refresh]);
+  }, [limit, page, search, refresh, sort, selectedGenres, selectedProducer, selectedStudio, selectedRatings]);
 
   const nextPage = () => {
     if (page < totalPages) setPage(page + 1);
@@ -167,6 +187,39 @@ const AnimeList = ({ refresh }) => {
     setPage(1);
   };
 
+  const handleSortChange = (e) => {
+    setSort(e.target.value);
+    setPage(1);
+  };
+
+  // Gestione filtri
+  const handleGenreCheckbox = (e) => {
+    const value = e.target.value;
+    setSelectedGenres(prev =>
+      prev.includes(value)
+        ? prev.filter(g => g !== value)
+        : [...prev, value]
+    );
+    setPage(1);
+  };
+  const handleProducerChange = (e) => {
+    setSelectedProducer(e.target.value);
+    setPage(1);
+  };
+  const handleStudioChange = (e) => {
+    setSelectedStudio(e.target.value);
+    setPage(1);
+  };
+  const handleRatingCheckbox = (e) => {
+    const value = e.target.value;
+    setSelectedRatings(prev =>
+      prev.includes(value)
+        ? prev.filter(r => r !== value)
+        : [...prev, value]
+    );
+    setPage(1);
+  };
+
   return (
     <div>
       <h2>Anime List (pagina {page} di {totalPages})</h2>
@@ -187,6 +240,62 @@ const AnimeList = ({ refresh }) => {
         <option value={200}>200</option>
       </select>
 
+      
+      <label htmlFor="sort" style={{ marginLeft: "1rem" }}>Ordina per: </label>
+      <select id="sort" value={sort} onChange={handleSortChange}>
+        <option value="MAL_ID_asc">MAL_ID Crescente</option>
+        <option value="MAL_ID_desc">MAL_ID Decrescente</option>
+        <option value="Name_asc">Nome Crescente</option>
+        <option value="Name_desc">Nome Decrescente</option>
+        <option value="Score_asc">Score Crescente</option>
+        <option value="Score_desc">Score Decrescente</option>
+      </select>
+
+      <div style={{ marginBottom: "1rem" }}>
+        <label style={{ marginRight: "0.5rem" }}>Generi:</label>
+        <span>
+          {genresList.map(g => (
+            <label key={g} style={{ marginRight: "0.5rem" }}>
+              <input
+                type="checkbox"
+                value={g}
+                checked={selectedGenres.includes(g)}
+                onChange={handleGenreCheckbox}
+              />
+              {g}
+            </label>
+          ))}
+        </span>
+        <label style={{ margin: "0 0.5rem 0 1rem" }}>Produttore:</label>
+        <select value={selectedProducer} onChange={handleProducerChange}>
+          <option value="">Tutti</option>
+          {producersList.map(p => (
+            <option key={p} value={p}>{p}</option>
+          ))}
+        </select>
+        <label style={{ margin: "0 0.5rem 0 1rem" }}>Studio:</label>
+        <select value={selectedStudio} onChange={handleStudioChange}>
+          <option value="">Tutti</option>
+          {studiosList.map(s => (
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
+        <label style={{ margin: "0 0.5rem 0 1rem" }}>Valutazione:</label>
+        <span>
+          {ratings.map(r => (
+            <label key={r} style={{ marginRight: "0.5rem" }}>
+              <input
+                type="checkbox"
+                value={r}
+                checked={selectedRatings.includes(r)}
+                onChange={handleRatingCheckbox}
+              />
+              {r}
+            </label>
+          ))}
+        </span>
+      </div>
+
       {error && <div style={{ color: "red", margin: "0.5rem 0" }}>{error}</div>}
 
       <table>
@@ -201,71 +310,77 @@ const AnimeList = ({ refresh }) => {
             <th>Produttori</th>
             <th>Studio</th>
             <th>Valutazione</th>
-            <th>Posizione</th>
+            <th>Ranking</th>
             <th>Azioni</th>
           </tr>
         </thead>
         <tbody>
-          {animeList.map(anime =>
-            editingId === anime._id ? (
-              <tr key={anime._id}>
-                <td>
-                  <input name="MAL_ID" value={editForm.MAL_ID} onChange={handleInputChange} disabled />
-                </td>
-                <td>
-                  <input name="Name" value={editForm.Name} onChange={handleInputChange} />
-                </td>
-                <td>
-                  <input name="Score" type="number" value={editForm.Score} onChange={handleInputChange} />
-                </td>
-                <td>
-                  <input name="Genres" value={editForm.Genres} onChange={handleInputChange} />
-                </td>
-                <td>
-                  <input name="Episodes" type="number" value={editForm.Episodes} onChange={handleInputChange} />
-                </td>
-                <td>
-                  <input name="Aired" value={editForm.Aired} onChange={handleInputChange} />
-                </td>
-                <td>
-                  <input name="Producers" value={editForm.Producers} onChange={handleInputChange} />
-                </td>
-                <td>
-                  <input name="Studios" value={editForm.Studios} onChange={handleInputChange} />
-                </td>
-                <td>
-                  <select name="Rating" value={editForm.Rating} onChange={handleInputChange} required>
-                    <option value="">Seleziona Rating</option>
-                    {ratings.map((r) => (
-                      <option key={r} value={r}>{r}</option>
-                    ))}
-                  </select>
-                </td>
-                <td>
-                  <input name="Ranked" type="number" value={editForm.Ranked} onChange={handleInputChange} />
-                </td>
-                <td>
-                  <button onClick={() => handleSave(anime._id)}>Salva</button>
-                  <button onClick={handleCancel}>Annulla</button>
-                </td>
-              </tr>
-            ) : (
-              <tr key={anime._id}>
-                <td>{anime.MAL_ID}</td>
-                <td>{anime.Name}</td>
-                <td>{anime.Score}</td>
-                <td>{anime.Genres}</td>
-                <td>{anime.Episodes}</td>
-                <td>{anime.Aired}</td>
-                <td>{anime.Producers}</td>
-                <td>{anime.Studios}</td>
-                <td>{anime.Rating}</td>
-                <td>{anime.Ranked}</td>
-                <td>
-                  <button onClick={() => handleEdit(anime)}>Modifica</button>
-                  <button onClick={() => handleDelete(anime._id)}>Elimina</button>
-                </td>
-              </tr>
+          {animeList.length === 0 ? (
+            <tr>
+              <td colSpan={11} style={{ textAlign: "center" }}>Nessun Risultato</td>
+            </tr>
+          ) : (
+            animeList.map(anime =>
+              editingId === anime._id ? (
+                <tr key={anime._id}>
+                  <td>
+                    <input name="MAL_ID" value={editForm.MAL_ID} onChange={handleInputChange} disabled />
+                  </td>
+                  <td>
+                    <input name="Name" value={editForm.Name} onChange={handleInputChange} />
+                  </td>
+                  <td>
+                    <input name="Score" type="number" value={editForm.Score} onChange={handleInputChange} />
+                  </td>
+                  <td>
+                    <input name="Genres" value={editForm.Genres} onChange={handleInputChange} />
+                  </td>
+                  <td>
+                    <input name="Episodes" type="number" value={editForm.Episodes} onChange={handleInputChange} />
+                  </td>
+                  <td>
+                    <input name="Aired" value={editForm.Aired} onChange={handleInputChange} />
+                  </td>
+                  <td>
+                    <input name="Producers" value={editForm.Producers} onChange={handleInputChange} />
+                  </td>
+                  <td>
+                    <input name="Studios" value={editForm.Studios} onChange={handleInputChange} />
+                  </td>
+                  <td>
+                    <select name="Rating" value={editForm.Rating} onChange={handleInputChange} required>
+                      <option value="">Seleziona Rating</option>
+                      {ratings.map((r) => (
+                        <option key={r} value={r}>{r}</option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
+                    <input name="Ranked" type="number" value={editForm.Ranked} onChange={handleInputChange} />
+                  </td>
+                  <td>
+                    <button onClick={() => handleSave(anime._id)}>Salva</button>
+                    <button onClick={handleCancel}>Annulla</button>
+                  </td>
+                </tr>
+              ) : (
+                <tr key={anime._id}>
+                  <td>{anime.MAL_ID}</td>
+                  <td>{anime.Name}</td>
+                  <td>{anime.Score}</td>
+                  <td>{anime.Genres}</td>
+                  <td>{anime.Episodes}</td>
+                  <td>{anime.Aired}</td>
+                  <td>{anime.Producers}</td>
+                  <td>{anime.Studios}</td>
+                  <td>{anime.Rating}</td>
+                  <td>{anime.Ranked}</td>
+                  <td>
+                    <button onClick={() => handleEdit(anime)}>Modifica</button>
+                    <button onClick={() => handleDelete(anime._id)}>Elimina</button>
+                  </td>
+                </tr>
+              )
             )
           )}
         </tbody>

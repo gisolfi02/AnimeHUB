@@ -10,17 +10,27 @@ const ReviewList = () => {
     const [editForm, setEditForm] = useState({});
     const [search, setSearch] = useState("");
     const [error, setError] = useState("");
+    const [sort, setSort] = useState("");
     
 
-    const fetchPage = (pageNum, limitVal = limit) => {
+    const fetchPage = (pageNum, limitVal = limit, sortVal = sort) => {
+        let sortField = "anime_id";
+        let sortOrder = 1;
+        
+    
+        if (sortVal === "anime_id_asc") { sortField = "anime_id"; sortOrder = 1; }
+        if (sortVal === "anime_id_desc") { sortField = "anime_id"; sortOrder = -1; }
+        if (sortVal === "rating_asc") { sortField = "rating"; sortOrder = 1; }
+        if (sortVal === "rating_desc") { sortField = "rating"; sortOrder = -1; }
+
         if (search.trim() === "") {
-            getAllReviews(pageNum, limitVal).then(res => {
+            getAllReviews(pageNum, limitVal, sortField, sortOrder).then(res => {
                 setReviewList(res.data.data);
                 setPage(res.data.currentPage);
                 setTotalPages(res.data.totalPages);
             });
         }else{
-            searchReviewByAnimeID(search, pageNum, limitVal).then(res => {
+            searchReviewByAnimeID(search, pageNum, limitVal, sortField, sortOrder).then(res => {
                 setReviewList(res.data.data);
                 setPage(res.data.currentPage);
                 setTotalPages(res.data.totalPages);
@@ -29,8 +39,8 @@ const ReviewList = () => {
     };
 
     useEffect(() => {
-        fetchPage(page, limit);
-    }, [limit, page, search]);
+        fetchPage(page, limit, sort);
+    }, [limit, page, search, sort]);
 
     const handleLimitChange = (e) => {
         setLimit(Number(e.target.value));
@@ -90,12 +100,17 @@ const ReviewList = () => {
     setPage(1);
     };
 
+    const handleSortChange = (e) => {
+    setSort(e.target.value);
+    setPage(1);
+    };
+
     return (
         <div>
             <h2>Review List (pagina {page} di {totalPages})</h2>
 
             <input
-                type="text"
+                type="number"
                 value={search}
                 onChange={handleSearchChange}
                 placeholder="Cerca review per anime_id..."
@@ -109,6 +124,15 @@ const ReviewList = () => {
                 <option value={100}>100</option>
                 <option value={200}>200</option>
             </select>
+
+            <label htmlFor="sort" style={{ marginLeft: "1rem" }}>Ordina per: </label>
+            <select id="sort" value={sort} onChange={handleSortChange}>
+                <option value="anime_id_asc">Anime ID Crescente</option>
+                <option value="anime_id_desc">Anime ID Decrescente</option>
+                <option value="rating_asc">Rating Crescente</option>
+                <option value="rating_desc">Rating Decrescente</option>
+            </select>
+
             {error && <div style={{ color: "red" }}>{error}</div>}
 
             <table>
@@ -123,50 +147,56 @@ const ReviewList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {reviewList.map(review => editingId === review._id ? (
-                        <tr key={review._id}>
-                            <td><input name="user_id" value={editForm.user_id} onChange={handleInputChange} disabled/></td>
-                            <td><input name="anime_id" value={editForm.anime_id} onChange={handleInputChange} disabled/></td>
-                            <td><select name="rating" value={editForm.rating} onChange={handleInputChange}>
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                                <option value={6}>6</option>
-                                <option value={7}>7</option>
-                                <option value={8}>8</option>
-                                <option value={9}>9</option>
-                                <option value={10}>10</option>
-                            </select>
-                            </td>
-                            <td><select name="watching_status" value={editForm.watching_status} onChange={handleInputChange}>
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                            </select>
-                            </td>
-                            <td><input name="watched_episodes" type="number" value={editForm.watched_episodes} onChange={handleInputChange} /></td>
-                            <td>
-                                <button onClick={() => handleSave(review._id)}>Salva</button>
-                                <button onClick={handleCancel}>Annulla</button>
-                            </td>
+                    {reviewList.length === 0 ? (
+                        <tr>
+                            <td colSpan={6} style={{ textAlign: "center" }}>Nessun Risultato</td>
                         </tr>
                     ) : (
-                        <tr key={review._id}>
-                            <td>{review.user_id}</td>
-                            <td>{review.anime_id}</td>
-                            <td>{review.rating}</td>
-                            <td>{review.watching_status}</td>
-                            <td>{review.watched_episodes}</td>
-                            <td>
-                                <button onClick={() => handleEdit(review)}>Modifica</button>
-                                <button onClick={() => handleDelete(review._id)}>Elimina</button>
-                            </td>
-                        </tr>
-                    )
+                        reviewList.map(review => editingId === review._id ? (
+                            <tr key={review._id}>
+                                <td><input name="user_id" value={editForm.user_id} onChange={handleInputChange} disabled/></td>
+                                <td><input name="anime_id" value={editForm.anime_id} onChange={handleInputChange} disabled/></td>
+                                <td><select name="rating" value={editForm.rating} onChange={handleInputChange}>
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
+                                    <option value={4}>4</option>
+                                    <option value={5}>5</option>
+                                    <option value={6}>6</option>
+                                    <option value={7}>7</option>
+                                    <option value={8}>8</option>
+                                    <option value={9}>9</option>
+                                    <option value={10}>10</option>
+                                </select>
+                                </td>
+                                <td><select name="watching_status" value={editForm.watching_status} onChange={handleInputChange}>
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
+                                    <option value={4}>4</option>
+                                    <option value={5}>5</option>
+                                </select>
+                                </td>
+                                <td><input name="watched_episodes" type="number" value={editForm.watched_episodes} onChange={handleInputChange} /></td>
+                                <td>
+                                    <button onClick={() => handleSave(review._id)}>Salva</button>
+                                    <button onClick={handleCancel}>Annulla</button>
+                                </td>
+                            </tr>
+                        ) : (
+                            <tr key={review._id}>
+                                <td>{review.user_id}</td>
+                                <td>{review.anime_id}</td>
+                                <td>{review.rating}</td>
+                                <td>{review.watching_status}</td>
+                                <td>{review.watched_episodes}</td>
+                                <td>
+                                    <button onClick={() => handleEdit(review)}>Modifica</button>
+                                    <button onClick={() => handleDelete(review._id)}>Elimina</button>
+                                </td>
+                            </tr>
+                        )
+                        )
                     )}
                 </tbody>
             </table>

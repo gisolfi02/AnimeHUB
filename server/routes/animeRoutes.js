@@ -14,5 +14,4 @@ router.get("/producers", animeController.getDistinctProducers);
 router.get("/studios", animeController.getDistinctStudios);
 router.get("/ratings/:rating", animeController.checkAnimeRatingExists);
 
-
 module.exports = router;
