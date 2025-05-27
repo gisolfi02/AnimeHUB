@@ -1,3 +1,4 @@
+import '../assets/AnimeList.css';
 import { useState, useEffect } from "react";
 import { createAnime, getAnimeRatings, checkAnimeIdExists, getAnimeGenres, getAnimeProducers, getAnimeStudios } from "../api/anime";
 
@@ -132,29 +133,34 @@ const AnimeForm = ({ onCreated }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1rem" }}>
-      
-      <input name="MAL_ID" type="number" value={form.MAL_ID} onChange={handleChange} placeholder="MAL ID" required />
-      <input name="Name" value={form.Name} onChange={handleChange} placeholder="Nome Anime" required />
-      <input name="Score" type="number" step="0.01" value={form.Score} onChange={handleChange} placeholder="Score" required />
-      <input name="Genres" value={form.Genres} onChange={handleChange} placeholder="Generi (es: Action, Drama)" />
-      <input name="Episodes" type="number" value={form.Episodes} onChange={handleChange} placeholder="Numero Episodi" />
-      <input name="Aired" value={form.Aired} onChange={handleChange} placeholder="Periodo (es: Apr 3, 1998 to Apr 24, 1999)" />
-      <input name="Producers" value={form.Producers} onChange={handleChange} placeholder="Produttori" />
-      <input name="Studios" value={form.Studios} onChange={handleChange} placeholder="Studios" />
-      <select name="Rating" value={form.Rating} onChange={handleChange} required>
-        <option value="">Seleziona Rating</option>
-        {ratings.map((r) => (
-          <option key={r} value={r}>{r}</option>
-        ))}
-      </select>
-      <input name="Ranked" type="number" step="0.01" value={form.Ranked} onChange={handleChange} placeholder="Posizione nel ranking" />
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <button type="submit">Aggiungi Anime</button>
+    <div className='animeFormContainer'>
+    <form onSubmit={handleSubmit}>
+      <div className='splitContainer'>
+        <div className='leftContainer'>
+          <input name="MAL_ID" type="number" value={form.MAL_ID} onChange={handleChange} placeholder="MAL ID" required />
+          <input name="Name" value={form.Name} onChange={handleChange} placeholder="Nome Anime" required />
+          <input name="Score" type="number" step="0.01" value={form.Score} onChange={handleChange} placeholder="Score" required />
+          <input name="Genres" value={form.Genres} onChange={handleChange} placeholder="Generi (es: Action, Drama)" />
+          <input name="Episodes" type="number" value={form.Episodes} onChange={handleChange} placeholder="Numero Episodi" />
+        </div>
+        <div className='rightContainer'>
+          <input name="Aired" value={form.Aired} onChange={handleChange} placeholder="Periodo (es: Apr 3, 1998 to Apr 24, 1999)" />
+          <input name="Producers" value={form.Producers} onChange={handleChange} placeholder="Produttori" />
+          <input name="Studios" value={form.Studios} onChange={handleChange} placeholder="Studios" />
+          <select name="Rating" value={form.Rating} onChange={handleChange} required>
+            <option value="">Seleziona Rating</option>
+            {ratings.map((r) => (
+              <option key={r} value={r}>{r}</option>
+            ))}
+          </select>
+          <input name="Ranked" type="number" step="0.01" value={form.Ranked} onChange={handleChange} placeholder="Posizione nel ranking" />
+          {error && <div style={{ color: "red" }}>{error}</div>}
+        </div>
+      </div>
     </form>
+    <button type="submit">Aggiungi Anime</button>
+    </div>
   );
 };
 
 export default AnimeForm;
-
-//booooo
