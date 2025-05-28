@@ -1,0 +1,102 @@
+.reviewFormContainer{
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 16px;
+    height: 500px;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(179, 198, 201, 0.601);
+    border: 3px solid #24341e;  
+    background-image: url('../images/luffy1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Poppins', sans-serif;
+}
+
+.reviewFormContainer button[type="submit"] {
+    margin-top: 15px; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto; 
+    background-color: #eaf2e8;
+    background: linear-gradient(to left, #4f7241, #7cab6b);
+    color: #eaf2e8;
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: 3px solid #24341e;  
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(21, 183, 100, 0.4);
+    transition: transform 0.2s ease;
+}
+
+.reviewFormContainer input::placeholder {
+    font-family: Overpass, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;; /* oppure 'Poppins', 'Arial', ecc. */
+    font-size: 1rem;
+    font-style: italic;
+    color: #666;
+}
+
+.reviewFormContainer button[type="submit"]:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to left, #7cab6b, #4f7241);
+}
+
+.reviewFormContainer input{
+    height: 25px;
+    padding: 10px 12px;
+    border: 2px solid #24341e;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #eaf2e8;
+    border: 2px solid #24341e;
+    border-radius: 8px;
+    box-shadow: inset 2px 2px 8px #b0c8aa, inset -2px -2px 8px #eaf2e8;
+}
+
+.reviewFormContainer select {
+    height: 48.5px;
+    padding: 10px 12px;
+    border: 2px solid #24341e;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #eaf2e8;
+    border: 2px solid #24341e;
+    border-radius: 8px;
+    box-shadow: inset 2px 2px 8px #b0c8aa, inset -2px -2px 8px #eaf2e8;
+}
+
+.reviewFormContainer input:focus,
+.reviewFormContainer select:focus {
+    outline: none;
+    padding: 10px 12px;
+    border: 2px solid #24341e;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #eaf2e8;
+    box-shadow: inset 1px 1px 8px #7b7d80, inset -1px -1px 8px #eeeeee;
+    border: 3px solid #24341e;
+    border-radius: 8px;
+}
+
+.formContainer{
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.resultContainer {
+    display: flex;
+    color: #ffffff;
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: center;
+}
+.resultContainer p{
+    margin: 0;
+    font-family: Overpass, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-size: larger;
+    font-weight: 500;
+}

@@ -2,12 +2,11 @@ footer{
     height: 10em;
     display: flex;
     background-color: #7cab6b;
-    position: relative;
-    bottom: 0;
     width: 100%;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .contactContainer{
@@ -44,4 +43,8 @@ footer{
 
 a{
     margin: 0px 5.5px;
+}
+
+.socialIcons :hover{
+    color: #4f7241;
 }

@@ -28,19 +28,19 @@ function Footer() {
       <div className="socialContainer">
         <h2 className="h2Footer">Seguici su:</h2>
         <div className="socialIconsContainer">
-          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+          <a className= "socialIcons" href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={['fab', 'facebook']} size="2xl" style={{color: "#b3cea9"}} />
           </a>
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+          <a className= "socialIcons" href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={['fab', 'instagram']} size="2xl" style={{color: "#b3cea9"}} />
           </a>
-          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+          <a className= "socialIcons" href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={['fab', 'x-twitter']} size="2xl" style={{color: "#b3cea9"}} />
           </a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+          <a className= "socialIcons" href="https://github.com" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={['fab', 'github']} size="2xl" style={{color: "#b3cea9"}} />
           </a>
-          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+          <a className= "socialIcons" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={['fab', 'linkedin']} size="2xl" style={{color: "#b3cea9"}} />
           </a>
         </div>
