@@ -29,12 +29,21 @@ function App() {
         <Navbar onLogoClick={() => setActiveButton(null)} />
         <main className={rootClass}>
           {showBackground && (
-            <div className="descriptionContainer">
-              <h3>
-                <b>AnimeHUB</b> è una piattaforma per appassionati di anime che permette di aggiungere, visualizzare e recensire anime.<br />
-                Puoi inserire nuovi titoli, leggere le recensioni degli altri utenti e consultare tutte le informazioni in un unico posto.
+
+
+            <div class="hero-description">
+            
+              <h2 class="intro-headline">Ami gli anime?</h2>
+              <p class="intro-description">
+                Su <strong>AnimeHUB</strong> puoi aggiungere nuovi titoli, leggere le recensioni degli altri utenti e scoprire cosa guardare, tutto in un solo posto.<br></br>
+                Crea la tua lista, condividi opinioni e vivi la passione per l’animazione giapponese insieme alla community.
+              </p>
+              <h3 class="intro-description">
+                Sei pronto? Noi sì! Divertiti!
               </h3>
             </div>
+
+          
           )}
           <div className='buttonContainer'>
             <Link to="/anime-form">
