@@ -1,109 +1,121 @@
+# 📌 AnimeHUB
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cf3415eb-69d1-4261-8d40-1df9854124cd" style="width:300px">
+</p>
 
-# AnimeHUB
-
-AnimeHUB è una web application full-stack per la gestione di un database di anime e recensioni. Permette agli utenti di aggiungere, visualizzare, modificare ed eliminare anime e recensioni, oltre a consultare informazioni aggregate tramite join tra le tabelle. Il progetto è suddiviso in due parti principali: **client** (frontend React) e **server** (backend Node.js/Express + MongoDB).
+**AnimeHUB** is a full-stack web application for managing and visualizing a database of anime and reviews. The app allows users to add, edit, view, and delete anime and reviews, as well as access aggregated statistics through join operations between collections. The project was developed using **React + Node.js/Express + MongoDB**.
 
 ---
 
-## Struttura del progetto
+## 👥 Authors
+- [Andrea Gisolfi](mailto:a.gisolfi4@studenti.unisa.it)
+- [Silvana Cafaro](mailto:s.cafaro7@studenti.unisa.it)
 
+---
+
+## 🛠 Technologies Used
+- **Frontend:** React 19, Vite, Axios, React Router, FontAwesome
+- **Backend:** Node.js, Express 5, Mongoose 8, MongoDB
+- **Others:** dotenv, cors, concurrently
+
+---
+
+## 📂 Project Structure
 ```
 AnimeHUB/
 │
-├── client/         # Frontend React (Vite)
+├── client/               # React Frontend
 │   ├── src/
-│   │   ├── api/            # Funzioni per chiamate API REST
-│   │   ├── assets/         # CSS e immagini
-│   │   └── components/     # Componenti React (liste, form, navbar, footer, ecc.)
+│   │   ├── api/          # API call functions
+│   │   ├── assets/       # CSS and images
+│   │   └── components/   # React components
 │   ├── index.html
 │   └── vite.config.js
 │
-├── server/         # Backend Node.js/Express
-│   ├── controllers/        # Logica dei controller per Anime e Review
-│   ├── models/             # Schemi Mongoose per Anime e Review
-│   ├── routes/             # Definizione delle rotte API REST
-│   ├── server.js           # Entry point del server
-│   └── .env                # Variabili ambiente (es. MONGO_URI)
+├── server/               # Node.js Backend
+│   ├── controllers/      # Controllers for Anime and Review
+│   ├── models/           # Mongoose schemas
+│   ├── routes/           # REST API routes
+│   ├── server.js         # Server entry point
+│   └── .env              # Environment variables
 │
-├── package.json    # Script globali per avvio client/server
-└── README.md       # Questo file
+└── package.json          # Global scripts
 ```
 
 ---
 
-## Funzionalità principali
+## 🔹 Main Features
 
-### Anime
-- **Aggiungi Anime:** Inserimento di nuovi anime con validazione dei campi.
-- **Visualizza/Modifica/Elimina Anime:** Lista paginata, ricerca per nome, filtri avanzati (genere, produttore, studio, valutazione), ordinamento e modifica/eliminazione inline.
-- **Filtri dinamici:** Generi, produttori, studi e rating sono estratti dinamicamente dal database.
+### 📺 Anime
+- Add anime with validation.
+- Paginated list with search, filters (genre, studio, producer, rating), sorting, inline editing/deletion.
+- Filters are dynamically extracted from the database.
 
-### Recensioni
-- **Aggiungi Review:** Inserimento di una recensione per un anime da parte di un utente, con controlli su duplicati e validità degli ID.
-- **Visualizza/Modifica/Elimina Review:** Lista paginata, ricerca per anime_id, ordinamento, modifica/eliminazione inline.
-- **Join Avanzato:** Visualizzazione aggregata di recensioni con dettagli anime e stato di visione tramite join MongoDB.
+### ✍️ Reviews
+- Create reviews linked to anime.
+- Search by `anime_id`, edit and delete inline.
+- Join with anime details and watching status.
 
-### UI/UX
-- **Navbar e Footer:** Navigazione semplice, branding e contatti.
-- **Responsive Design:** Layout adattivo e moderno, con uso di FontAwesome per le icone.
-- **Feedback utente:** Messaggi di errore e successo per tutte le operazioni.
 
 ---
 
-## Stack Tecnologico
-
-- **Frontend:** React 19, Vite, Axios, React Router, FontAwesome
-- **Backend:** Node.js, Express 5, Mongoose 8, MongoDB
-- **Altro:** dotenv, cors, concurrently (per sviluppo)
-
----
-
-## Avvio del progetto
-
-### Prerequisiti
-
-- Node.js (v18+)
-- MongoDB (istanza locale o Atlas)
-- npm
-
-### Setup
-
-1. **Clona il repository**
-2. **Configura il backend**
-   - Vai in `server/`
-   - Crea un file `.env` con la variabile `MONGO_URI` per la tua connessione MongoDB
-3. **Installa le dipendenze**
-   - `npm install` nella root (installa anche le dipendenze di client/server)
-   - `cd client && npm install`
-   - `cd ../server && npm install`
-4. **Avvia in modalità sviluppo**
-   - Dalla root: `npm run dev`
-   - Questo comando avvia sia il server Express (porta 5000) che il client React (porta 5173)
-5. **Accedi all'app**
-   - Apri [http://localhost:5173](http://localhost:5173) nel browser
+## 💻 System Requirements
+- **Node.js** `v18+`
+- **MongoDB** (local or Atlas)
+- **npm**
 
 ---
 
-## API REST
+## 🚀 Project Setup
 
-Le API sono documentate tramite le route in [server/routes/animeRoutes.js](server/routes/animeRoutes.js) e [server/routes/reviewRoutes.js](server/routes/reviewRoutes.js).
+### 1️⃣ Clone the Repository
+```bash
+git clone <repo-url>
+```
 
-Esempi:
-- `GET /api/anime` — Lista anime con filtri, paginazione e ordinamento
-- `POST /api/anime` — Crea nuovo anime
-- `GET /api/review` — Lista recensioni
-- `POST /api/review` — Crea nuova recensione
-- `GET /api/review/full` — Join recensioni + dettagli anime
+### 2️⃣ Configure the Backend
+```bash
+cd server
+touch .env
+```
+Insert in the `.env` file:
+```
+MONGO_URI=mongodb+srv://<your-user>:<your-password>@<cluster-url>
+```
+
+### 3️⃣ Install Dependencies
+```bash
+npm install         # in root (installs for both client/server)
+cd client && npm install
+cd ../server && npm install
+```
+
+### 4️⃣ Start in Development Mode
+```bash
+npm run dev
+```
+- Starts `Express` on **localhost:5000**
+- Starts `React` on **localhost:5173**
 
 ---
 
-## Autori
+## 🔗 REST API
 
-- Andrea Gisolfi — [a.gisolfi4@studenti.unisa.it](mailto:a.gisolfi4@studenti.unisa.it)
-- Silvana Cafaro — [s.cafaro7@studenti.unisa.it](mailto:s.cafaro7@studenti.unisa.it)
+The APIs are defined in:
+
+- `server/routes/animeRoutes.js`
+- `server/routes/reviewRoutes.js`
+
+Examples:
+- `GET /api/anime` — List of anime with filters
+- `POST /api/anime` — Create a new anime
+- `GET /api/review` — List of reviews
+- `POST /api/review` — Create a new review
+- `GET /api/review/full` — Join reviews + anime
 
 ---
 
-## Licenza
+## 📜 License
 
-Questo progetto è realizzato per scopi didattici presso l'Università degli Studi di Salerno.
+> This project was created for educational purposes at the University of Salerno.  
+> All contents are original or demonstrative for teaching purposes.
