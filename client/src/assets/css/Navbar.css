@@ -1,17 +1,21 @@
 nav{
+    gap: 25%;
     height: 150px;
     background-color: #4f7241;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
 }
 
 .Logo{
     width: 225px;
 }
+.LogoRicerca{
+    width: 100px;
+}
 
 .h2Navbar{
-    margin-left: 22%;
     font-size: -webkit-xxx-large;
     color: #08180f;
     font-family: Overpass, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;

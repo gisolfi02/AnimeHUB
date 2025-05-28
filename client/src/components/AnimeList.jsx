@@ -186,6 +186,7 @@ const AnimeList = ({ refresh }) => {
   };
 
   const handleCancel = () => {
+    setError("");
     setEditingId(null);
   };
 
@@ -337,7 +338,7 @@ const AnimeList = ({ refresh }) => {
         </div>
       )}
 
-      {error && <div style={{ color: "red", margin: "0.5rem 0" }}>{error}</div>}
+      {error && <div className='errorContainer'><p>{error}</p></div>}
 
       <table>
         <thead className='headTable'>

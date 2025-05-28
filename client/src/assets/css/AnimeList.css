@@ -359,3 +359,9 @@
   border-radius: 4px;
   color: #24341e;
 }
+
+.errorContainer p{
+  color:  #922b21;
+  font-weight: bold;
+  margin-left: 5px;
+}
