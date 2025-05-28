@@ -53,13 +53,16 @@ function App() {
               <button  className={getButtonClass("/join-list")} onClick={() => setActiveButton("/join-list")}>Visualizza Tutto</button>
             </Link>
           </div>
-          <Routes>
-            <Route path="/anime-form" element={<AnimeForm onCreated={triggerRefresh} />} />
-            <Route path="/anime-list" element={<AnimeList refresh={refresh} />} />
-            <Route path="/review-form" element={<ReviewForm onCreated={triggerRefresh} />} />
-            <Route path="/review-list" element={<ReviewList key={refresh} />} />
-            <Route path="/join-list" element={<JoinList />} />
-          </Routes>
+          {/* Mostra le route solo se è stato selezionato un bottone */}
+          {activeButton && (
+            <Routes>
+              <Route path="/anime-form" element={<AnimeForm onCreated={triggerRefresh} />} />
+              <Route path="/anime-list" element={<AnimeList refresh={refresh} />} />
+              <Route path="/review-form" element={<ReviewForm onCreated={triggerRefresh} />} />
+              <Route path="/review-list" element={<ReviewList key={refresh} />} />
+              <Route path="/join-list" element={<JoinList />} />
+            </Routes>
+          )}
         </main>
         <Footer />
       </div>

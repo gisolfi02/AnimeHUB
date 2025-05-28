@@ -80,12 +80,12 @@
 
 
 .CercaVisualizzaOrdina {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-end;
-  margin: 2rem 0;
-  gap: 3rem; 
+    display: flex;
+    margin: 2rem 0;
+    gap: 3rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .form-group {
@@ -93,6 +93,16 @@
   flex-direction: column;
   align-items: flex-start;
   width: 280px; 
+}
+
+#id{
+  margin-top: 25px;
+  width: 5%;
+  cursor:pointer;
+}
+
+#id:hover{
+  color: #7cab6b;
 }
 
 .form-group label {
@@ -248,5 +258,9 @@
   display: flex;
   justify-content: center;
   width: 100%;
+}
+
+#filtro:hover svg {
+  color: #b3cea9 !important;
 }
 

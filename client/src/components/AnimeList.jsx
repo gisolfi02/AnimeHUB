@@ -1,6 +1,11 @@
 import '../assets/css/AnimeList.css';
 import { useEffect, useState } from "react";
 import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName, getAnimeRatings, getAnimeGenres, getAnimeProducers, getAnimeStudios, checkAnimeRatingExists } from "../api/anime";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faMagnifyingGlass, faSort, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
+library.add(faMagnifyingGlass, faEye,faSort, faFilter);
 
 const AnimeList = ({ refresh }) => {
   const [animeList, setAnimeList] = useState([]);
@@ -20,6 +25,7 @@ const AnimeList = ({ refresh }) => {
   const [selectedProducer, setSelectedProducer] = useState("");
   const [selectedStudio, setSelectedStudio] = useState("");
   const [selectedRatings, setSelectedRatings] = useState([]);
+  const [showFilters, setShowFilters] = useState(false); // aggiungi stato toggle
   const airedRegex = /^([A-Z][a-z]{2} \d{1,2}, \d{4})( to (([A-Z][a-z]{2} \d{1,2}, \d{4})|\?))?$/;
 
   const fetchPage = (pageNum, limitVal = limit, sortVal = sort) => {
@@ -226,7 +232,7 @@ const AnimeList = ({ refresh }) => {
       <h2>Anime List (pagina {page} di {totalPages})</h2>
       <div className='CercaVisualizzaOrdina'>
         <div className='form-group' id='cerca'>
-          <label htmlFor="search">Cerca: </label>
+          <label htmlFor="search"><FontAwesomeIcon icon={["fas", "magnifying-glass"]} size="lg" style={{color: "#4f7241", marginRight:"7px"}} />Cerca: </label>
           <input
           type="text"
           value={search}
@@ -236,7 +242,7 @@ const AnimeList = ({ refresh }) => {
         </div>
         
         <div className='form-group'>
-          <label htmlFor="limit" >Visualizza per pagina: </label>
+          <label htmlFor="limit" ><FontAwesomeIcon icon={["far", "eye"]} size="lg" style={{color: "#4f7241",marginRight:"7px"}} />Visualizza per pagina: </label>
           <select id="limit" value={limit} onChange={handleLimitChange}>
           <option value={10}>10</option>
           <option value={50}>50</option>
@@ -247,7 +253,7 @@ const AnimeList = ({ refresh }) => {
         
 
         <div className='form-group'>
-          <label htmlFor="sort" >Ordina per: </label>
+          <label htmlFor="sort" ><FontAwesomeIcon icon={["fas", "sort"]} style={{color: "#4f7241",marginRight:"7px"}} />Ordina per: </label>
           <select id="sort" value={sort} onChange={handleSortChange}>
           <option value="MAL_ID_asc">MAL_ID Crescente</option>
           <option value="MAL_ID_desc">MAL_ID Decrescente</option>
@@ -257,11 +263,20 @@ const AnimeList = ({ refresh }) => {
           <option value="Score_desc">Score Decrescente</option>
         </select>
         </div>
+        <div> 
+          <label
+            id='filtro'
+            onClick={() => setShowFilters(v => !v)}
+            style={{ userSelect: "none" }}
+          >
+            <FontAwesomeIcon icon={["fas", "filter"]} size="3x" style={{color: "#4f7241", marginTop:"25px", cursor:"pointer"}}/>
+          </label>
+        </div>
       </div>
 
-     
-      <div className='filtri' style={{ marginBottom: "1rem" }}>
-        <div className="generi">
+      {showFilters && (
+        <div className='filtri' style={{ marginBottom: "1rem" }}>
+          <div className="generi">
   <label className="generi-label">Generi:</label>
   <div className="generi-container">
     {genresList.map(g => (
@@ -321,6 +336,7 @@ const AnimeList = ({ refresh }) => {
   </div>
 </div>
       </div>
+      )}
 
       {error && <div style={{ color: "red", margin: "0.5rem 0" }}>{error}</div>}
 
