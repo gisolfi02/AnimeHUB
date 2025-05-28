@@ -400,8 +400,10 @@ const AnimeList = ({ refresh }) => {
                     <input name="Ranked" type="number" value={editForm.Ranked} onChange={handleInputChange} />
                   </td>
                   <td>
+                    <div className='action-btn'>
                     <button className='save-btn' onClick={() => handleSave(anime._id)}><FontAwesomeIcon icon={["fas", "floppy-disk"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Salva</button>
                     <button className='cancel-btn' onClick={handleCancel}><FontAwesomeIcon icon={["fas", "xmark"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Annulla</button>
+                    </div>
                   </td>
                 </tr>
               ) : (
