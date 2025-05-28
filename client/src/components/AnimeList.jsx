@@ -401,8 +401,8 @@ const AnimeList = ({ refresh }) => {
                     <input name="Ranked" type="number" value={editForm.Ranked} onChange={handleInputChange} />
                   </td>
                   <td>
-                    <button onClick={() => handleSave(anime._id)}>Salva</button>
-                    <button onClick={handleCancel}>Annulla</button>
+                    <button className='save-btn' onClick={() => handleSave(anime._id)}>Salva</button>
+                    <button className='cancel-btn' onClick={handleCancel}>Annulla</button>
                   </td>
                 </tr>
               ) : (
@@ -418,19 +418,21 @@ const AnimeList = ({ refresh }) => {
                   <td>{anime.Rating}</td>
                   <td>{anime.Ranked}</td>
                   <td>
-                    <button onClick={() => handleEdit(anime)}>Modifica</button>
-                    <button onClick={() => handleDelete(anime._id)}>Elimina</button>
+                    <div className='action-btn'>
+                      <button className='edit-btn' onClick={() => handleEdit(anime)}>Modifica</button>
+                    <button className= 'delete-btn' onClick={() => handleDelete(anime._id)}>Elimina</button>
+                    </div>
                   </td>
                 </tr>
               )
-            )
+            ) 
           )}
         </tbody>
       </table>
 
-      <div style={{ marginTop: "10px" }}>
-        <button onClick={prevPage} disabled={page === 1}>Indietro</button>
-        <button onClick={nextPage} disabled={page === totalPages}>Avanti </button>
+      <div className= 'nav-btn'>
+        <button className='back-btn' onClick={prevPage} disabled={page === 1}>Indietro</button>
+        <button className='go-btn' onClick={nextPage} disabled={page === totalPages}>Avanti </button>
       </div>
     </div>
   );
