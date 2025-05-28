@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName, getAnimeRatings, getAnimeGenres, getAnimeProducers, getAnimeStudios, checkAnimeRatingExists } from "../api/anime";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faMagnifyingGlass, faSort, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faSort, faFilter, faArrowRight, faArrowLeft, faFloppyDisk, faXmark, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
-library.add(faMagnifyingGlass, faEye,faSort, faFilter);
+library.add(faMagnifyingGlass, faEye,faSort, faFilter, faArrowRight, faArrowLeft, faFloppyDisk, faXmark, faPen, faTrash);
 
 const AnimeList = ({ refresh }) => {
   const [animeList, setAnimeList] = useState([]);
@@ -277,65 +277,64 @@ const AnimeList = ({ refresh }) => {
       {showFilters && (
         <div className='filtri' style={{ marginBottom: "1rem" }}>
           <div className="generi">
-  <label className="generi-label">Generi:</label>
-  <div className="generi-container">
-    {genresList.map(g => (
-      <label key={g}>
-        <input
-          type="checkbox"
-          value={g}
-          checked={selectedGenres.includes(g)}
-          onChange={handleGenreCheckbox}
-        />
-        {g}
-      </label>
-    ))}
-  </div>
-</div>
+            <label className="generi-label">Generi:</label>
+            <div className="generi-container">
+              {genresList.map(g => (
+                <label key={g}>
+                  <input
+                    type="checkbox"
+                    value={g}
+                    checked={selectedGenres.includes(g)}
+                    onChange={handleGenreCheckbox}
+                  />
+                  {g}
+                </label>
+              ))}
+            </div>
+          </div>
         
-        <div className='produttoriStudio'>
+          <div className='produttoriStudio'>
+            <div className='form-group'>
+              <label>Produttore:</label>
+              <select value={selectedProducer} onChange={handleProducerChange}>
+                <option value="">Tutti</option>
+                {producersList.map(p => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+              </select>
+            </div>
           
-        <div className='form-group'>
-        <label>Produttore:</label>
-        <select value={selectedProducer} onChange={handleProducerChange}>
-          <option value="">Tutti</option>
-          {producersList.map(p => (
-            <option key={p} value={p}>{p}</option>
-          ))}
-        </select>
-        </div>
-        
-        <div className='form-group'>
-          <label >Studio:</label>
-        <select value={selectedStudio} onChange={handleStudioChange}>
-          <option value="">Tutti</option>
-          {studiosList.map(s => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
-        </div>
-        </div>
+            <div className='form-group'>
+              <label >Studio:</label>
+              <select value={selectedStudio} onChange={handleStudioChange}>
+                <option value="">Tutti</option>
+                {studiosList.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+          </div>
 
 
-        <div className="valutazione-wrapper">
-  <div className='valutazione'>
-    <label className='valutazione-label'>Valutazione:</label>
-    <div className='valutazione-container'>
-      {ratings.map(r => (
-        <label key={r}>
-          <input
-            type="checkbox"
-            value={r}
-            checked={selectedRatings.includes(r)}
-            onChange={handleRatingCheckbox}
-          />
-          {r}
-        </label>
-      ))}
-    </div>
-  </div>
-</div>
-      </div>
+          <div className="valutazione-wrapper">
+            <div className='valutazione'>
+              <label className='valutazione-label'>Valutazione:</label>
+                <div className='valutazione-container'>
+                  {ratings.map(r => (
+                    <label key={r}>
+                      <input
+                        type="checkbox"
+                        value={r}
+                        checked={selectedRatings.includes(r)}
+                        onChange={handleRatingCheckbox}
+                      />
+                      {r}
+                    </label>
+                    ))}
+                </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {error && <div style={{ color: "red", margin: "0.5rem 0" }}>{error}</div>}
@@ -401,8 +400,8 @@ const AnimeList = ({ refresh }) => {
                     <input name="Ranked" type="number" value={editForm.Ranked} onChange={handleInputChange} />
                   </td>
                   <td>
-                    <button className='save-btn' onClick={() => handleSave(anime._id)}>Salva</button>
-                    <button className='cancel-btn' onClick={handleCancel}>Annulla</button>
+                    <button className='save-btn' onClick={() => handleSave(anime._id)}><FontAwesomeIcon icon={["fas", "floppy-disk"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Salva</button>
+                    <button className='cancel-btn' onClick={handleCancel}><FontAwesomeIcon icon={["fas", "xmark"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Annulla</button>
                   </td>
                 </tr>
               ) : (
@@ -419,8 +418,8 @@ const AnimeList = ({ refresh }) => {
                   <td>{anime.Ranked}</td>
                   <td>
                     <div className='action-btn'>
-                      <button className='edit-btn' onClick={() => handleEdit(anime)}>Modifica</button>
-                    <button className= 'delete-btn' onClick={() => handleDelete(anime._id)}>Elimina</button>
+                      <button className='edit-btn' onClick={() => handleEdit(anime)}><FontAwesomeIcon icon={["fas", "pen"]} style={{color: "#ffffff",marginRight:"7px"}} />Modifica</button>
+                    <button className= 'delete-btn' onClick={() => handleDelete(anime._id)}><FontAwesomeIcon icon={["fas","trash"]} style={{color: "#ffffff",marginRight:"7px"}} />Elimina</button>
                     </div>
                   </td>
                 </tr>
@@ -431,8 +430,8 @@ const AnimeList = ({ refresh }) => {
       </table>
 
       <div className= 'nav-btn'>
-        <button className='back-btn' onClick={prevPage} disabled={page === 1}>Indietro</button>
-        <button className='go-btn' onClick={nextPage} disabled={page === totalPages}>Avanti </button>
+        <button className='back-btn' onClick={prevPage} disabled={page === 1}><FontAwesomeIcon icon={["fas", "arrow-left"]} size='lg' style={{color: "#ffffff",marginRight:"7px"}} />Indietro</button>
+        <button className='go-btn' onClick={nextPage} disabled={page === totalPages}>Avanti <FontAwesomeIcon icon={["fas", "arrow-right"]} size='lg' style={{color: "#ffffff",marginLeft:"7px"}} /> </button>
       </div>
     </div>
   );

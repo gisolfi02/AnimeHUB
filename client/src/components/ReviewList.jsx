@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 import { getAllReviews, deleteReview, updateReview, searchReviewByAnimeID } from "../api/review";
+import "../assets/css/ReviewList.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faMagnifyingGlass, faSort, faArrowRight, faArrowLeft, faFloppyDisk, faXmark, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
+library.add(faMagnifyingGlass, faEye,faSort, faArrowRight, faArrowLeft, faFloppyDisk, faXmark, faPen, faTrash);
+
 
 const ReviewList = () => {
     const [reviewList, setReviewList] = useState([]);
@@ -106,37 +113,44 @@ const ReviewList = () => {
     };
 
     return (
-        <div>
+        <div className="reviewListContainer">
             <h2>Review List (pagina {page} di {totalPages})</h2>
+            <div className="cercaVisualizzaOrdina">
+                <div className='form-group' id='cerca'>
+                    <label htmlFor="search"><FontAwesomeIcon icon={["fas", "magnifying-glass"]} size="lg" style={{color: "#4f7241", marginRight:"7px"}} />Cerca: </label>
+                    <input
+                    type="number"
+                    value={search}
+                    onChange={handleSearchChange}
+                    placeholder="Cerca review per anime id..."
+                    />
+                </div>
 
-            <input
-                type="number"
-                value={search}
-                onChange={handleSearchChange}
-                placeholder="Cerca review per anime_id..."
-                style={{ marginBottom: "1rem", padding: "0.5rem" }}
-            />
+                <div className='form-group'>
+                    <label htmlFor="limit" ><FontAwesomeIcon icon={["far", "eye"]} size="lg" style={{color: "#4f7241",marginRight:"7px"}} />Visualizza per pagina: </label>
+                    <select id="limit" value={limit} onChange={handleLimitChange}>
+                    <option value={10}>10</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                    <option value={200}>200</option>
+                    </select>
+                </div>
 
-            <label htmlFor="limit" style={{ marginLeft: "1rem" }}>Visualizza per pagina: </label>
-            <select id="review-limit" value={limit} onChange={handleLimitChange}>
-                <option value={10}>10</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-                <option value={200}>200</option>
-            </select>
-
-            <label htmlFor="sort" style={{ marginLeft: "1rem" }}>Ordina per: </label>
-            <select id="sort" value={sort} onChange={handleSortChange}>
-                <option value="anime_id_asc">Anime ID Crescente</option>
-                <option value="anime_id_desc">Anime ID Decrescente</option>
-                <option value="rating_asc">Rating Crescente</option>
-                <option value="rating_desc">Rating Decrescente</option>
-            </select>
+                <div className='form-group'>
+                    <label htmlFor="sort" style={{ marginLeft: "1rem" }}><FontAwesomeIcon icon={["fas", "sort"]} style={{color: "#4f7241",marginRight:"7px"}} />Ordina per: </label>
+                    <select id="sort" value={sort} onChange={handleSortChange}>
+                        <option value="anime_id_asc">Anime ID Crescente</option>
+                        <option value="anime_id_desc">Anime ID Decrescente</option>
+                        <option value="rating_asc">Rating Crescente</option>
+                        <option value="rating_desc">Rating Decrescente</option>
+                    </select>
+                </div>
+            </div>
 
             {error && <div style={{ color: "red" }}>{error}</div>}
 
             <table>
-                <thead>
+                <thead className="headTable">
                     <tr>
                         <th>User ID</th>
                         <th>Anime ID</th>
@@ -146,7 +160,7 @@ const ReviewList = () => {
                         <th>Azioni</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="bodyTable">
                     {reviewList.length === 0 ? (
                         <tr>
                             <td colSpan={6} style={{ textAlign: "center" }}>Nessun Risultato</td>
@@ -179,8 +193,8 @@ const ReviewList = () => {
                                 </td>
                                 <td><input name="watched_episodes" type="number" value={editForm.watched_episodes} onChange={handleInputChange} /></td>
                                 <td>
-                                    <button onClick={() => handleSave(review._id)}>Salva</button>
-                                    <button onClick={handleCancel}>Annulla</button>
+                                    <button className = "save-btn" onClick={() => handleSave(review._id)}><FontAwesomeIcon icon={["fas", "floppy-disk"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Salva</button>
+                                    <button className="cancel-btn" onClick={handleCancel}><FontAwesomeIcon icon={["fas", "xmark"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Annulla</button>
                                 </td>
                             </tr>
                         ) : (
@@ -191,8 +205,10 @@ const ReviewList = () => {
                                 <td>{review.watching_status}</td>
                                 <td>{review.watched_episodes}</td>
                                 <td>
-                                    <button onClick={() => handleEdit(review)}>Modifica</button>
-                                    <button onClick={() => handleDelete(review._id)}>Elimina</button>
+                                    <div className="action-btn">
+                                        <button className="edit-btn" ca onClick={() => handleEdit(review)}><FontAwesomeIcon icon={["fas", "pen"]} style={{color: "#ffffff",marginRight:"7px"}} />Modifica</button>
+                                        <button className="delete-btn"onClick={() => handleDelete(review._id)}><FontAwesomeIcon icon={["fas","trash"]} style={{color: "#ffffff",marginRight:"7px"}} />Elimina</button>
+                                    </div>
                                 </td>
                             </tr>
                         )
@@ -201,9 +217,9 @@ const ReviewList = () => {
                 </tbody>
             </table>
 
-            <div style={{ marginTop: "10px" }}>
-                <button onClick={prevPage} disabled={page === 1}>Indietro</button>
-                <button onClick={nextPage} disabled={page === totalPages}>Avanti</button>
+            <div className="nav-btn">
+                <button className="back-btn"onClick={prevPage} disabled={page === 1}><FontAwesomeIcon icon={["fas", "arrow-left"]} size='lg' style={{color: "#ffffff",marginRight:"7px"}} />Indietro</button>
+                <button className="go-btn"onClick={nextPage} disabled={page === totalPages}>Avanti <FontAwesomeIcon icon={["fas", "arrow-right"]} size='lg' style={{color: "#ffffff",marginLeft:"7px"}} /></button>
             </div>
         </div>
     );
