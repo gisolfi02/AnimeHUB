@@ -56,10 +56,6 @@ AnimeHUB/
 - Search by `anime_id`, edit and delete inline.
 - Join with anime details and watching status.
 
-### 🎨 UI/UX
-- Integrated Navbar and Footer.
-- Responsive and modern design.
-- Success/error messages for each operation.
 
 ---
 
