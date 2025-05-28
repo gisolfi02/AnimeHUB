@@ -256,8 +256,8 @@ const AnimeList = ({ refresh }) => {
         <div className='form-group'>
           <label htmlFor="sort" ><FontAwesomeIcon icon={["fas", "sort"]} style={{color: "#4f7241",marginRight:"7px"}} />Ordina per: </label>
           <select id="sort" value={sort} onChange={handleSortChange}>
-          <option value="MAL_ID_asc">MAL_ID Crescente</option>
-          <option value="MAL_ID_desc">MAL_ID Decrescente</option>
+          <option value="MAL_ID_asc">ID Crescente</option>
+          <option value="MAL_ID_desc">ID Decrescente</option>
           <option value="Name_asc">Nome Crescente</option>
           <option value="Name_desc">Nome Decrescente</option>
           <option value="Score_asc">Score Crescente</option>
@@ -299,7 +299,7 @@ const AnimeList = ({ refresh }) => {
               <label>Produttore:</label>
               <select value={selectedProducer} onChange={handleProducerChange}>
                 <option value="">Tutti</option>
-                {producersList.map(p => (
+                {[...producersList].sort().map(p => (
                   <option key={p} value={p}>{p}</option>
                 ))}
               </select>
@@ -309,7 +309,7 @@ const AnimeList = ({ refresh }) => {
               <label >Studio:</label>
               <select value={selectedStudio} onChange={handleStudioChange}>
                 <option value="">Tutti</option>
-                {studiosList.map(s => (
+                {[...studiosList].sort().map(s => (
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>
@@ -343,7 +343,7 @@ const AnimeList = ({ refresh }) => {
       <table>
         <thead className='headTable'>
           <tr>
-            <th>MAL_ID</th>
+            <th>Anime ID</th>
             <th>Nome</th>
             <th>Score</th>
             <th>Genere</th>
