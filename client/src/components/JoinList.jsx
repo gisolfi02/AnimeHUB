@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { getFullReviewInfo } from "../api/review";
 import '../assets/css/JoinList.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSort, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
+library.add(faEye,faSort, faArrowRight, faArrowLeft);
+
+
 const FullReviewList = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -49,11 +56,11 @@ const FullReviewList = () => {
 
   return (
     <div className="animeListContainer">
-      <h2>Review + Anime + Status</h2>
+      <h2>Info complete (pagina {page} di {totalPages})</h2>
 
       <div className="CercaVisualizzaOrdina">
         <div className='form-group'>
-          <label htmlFor="limit" style={{ marginLeft: "1rem" }}>Visualizza per pagina: </label>
+          <label htmlFor="limit" style={{ marginLeft: "1rem" }}><FontAwesomeIcon icon={["far", "eye"]} size="lg" style={{color: "#4f7241",marginRight:"7px"}} />Visualizza per pagina: </label>
           <select id="review-limit" value={limit} onChange={handleLimitChange}>
           <option value={10}>10</option>
           <option value={50}>50</option>
@@ -62,7 +69,7 @@ const FullReviewList = () => {
           </select>
         </div>
         <div className='form-group'>
-          <label htmlFor="sort" style={{ marginLeft: "1rem" }}>Ordina per: </label>
+          <label htmlFor="sort" style={{ marginLeft: "1rem" }}><FontAwesomeIcon icon={["fas", "sort"]} style={{color: "#4f7241",marginRight:"7px"}} />Ordina per: </label>
           <select id="sort" value={sort} onChange={handleSortChange}>
           <option value="anime_id_asc">Anime ID Crescente</option>
           <option value="anime_id_desc">Anime ID Decrescente</option>
@@ -102,9 +109,8 @@ const FullReviewList = () => {
       </table>
 
       <div className="nav-btn" >
-        <button  className='back-btn' onClick={prevPage} disabled={page === 1}>Indietro</button>
-        <span>Pagina {page} di {totalPages}</span>
-        <button className='go-btn' onClick={nextPage} disabled={page === totalPages}>Avanti</button>
+        <button  className='back-btn' onClick={prevPage} disabled={page === 1}><FontAwesomeIcon icon={["fas", "arrow-left"]} size='lg' style={{color: "#ffffff",marginRight:"7px"}} />Indietro</button>
+        <button className='go-btn' onClick={nextPage} disabled={page === totalPages}><FontAwesomeIcon icon={["fas", "arrow-right"]} size='lg' style={{color: "#ffffff",marginLeft:"7px"}} />Avanti</button>
       </div>
     </div>
   );

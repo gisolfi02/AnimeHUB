@@ -147,7 +147,7 @@ const ReviewList = () => {
                 </div>
             </div>
 
-            {error && <div style={{ color: "red" }}>{error}</div>}
+            {error && <div className="errorContainer"><p>{error}</p></div>}
 
             <table>
                 <thead className="headTable">
@@ -193,8 +193,10 @@ const ReviewList = () => {
                                 </td>
                                 <td><input name="watched_episodes" type="number" value={editForm.watched_episodes} onChange={handleInputChange} /></td>
                                 <td>
-                                    <button className = "save-btn" onClick={() => handleSave(review._id)}><FontAwesomeIcon icon={["fas", "floppy-disk"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Salva</button>
-                                    <button className="cancel-btn" onClick={handleCancel}><FontAwesomeIcon icon={["fas", "xmark"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Annulla</button>
+                                    <div className="action-btn">
+                                        <button className = "save-btn" onClick={() => handleSave(review._id)}><FontAwesomeIcon icon={["fas", "floppy-disk"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Salva</button>
+                                        <button className="cancel-btn" onClick={handleCancel}><FontAwesomeIcon icon={["fas", "xmark"]} size="lg" style={{color: "#ffffff",marginRight:"7px"}} />Annulla</button>
+                                    </div>
                                 </td>
                             </tr>
                         ) : (
