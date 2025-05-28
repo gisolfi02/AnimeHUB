@@ -1,6 +1,10 @@
 import '../assets/css/AnimeForm.css';
 import { useState, useEffect } from "react";
 import { createAnime, getAnimeRatings, checkAnimeIdExists, getAnimeGenres, getAnimeProducers, getAnimeStudios } from "../api/anime";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+library.add(faPlus);
 
 const AnimeForm = ({ onCreated }) => {
   const [form, setForm] = useState({
@@ -161,7 +165,7 @@ const AnimeForm = ({ onCreated }) => {
           <input name="Ranked" type="number" step="0.01" value={form.Ranked} onChange={handleChange} placeholder="Posizione nel ranking" />
         </div>
       </div>
-      <button type="submit">Aggiungi Anime</button>
+      <button type="submit"><FontAwesomeIcon icon={["fas", "plus"]} size="lg" style={{color: "#eaf2e8", marginRight:"7px"}} />Aggiungi Anime</button>
       {result && <div className='resultContainer'><p>{result}</p></div>}
     </form>
     </div>

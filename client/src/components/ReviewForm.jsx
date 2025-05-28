@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { createReview, checkReviewByAnimeAndUserID } from "../api/review";
 import { checkAnimeIdExists } from "../api/anime";
-import "../assets/css/ReviewForm.css"; // Assicurati di avere il file CSS corretto
+import "../assets/css/ReviewForm.css"; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+library.add(faPlus);
 
 const ReviewForm = ({ onCreated }) => {
   const [form, setForm] = useState({
@@ -100,7 +104,7 @@ const ReviewForm = ({ onCreated }) => {
           </select>
           <input name="watched_episodes" type="number" value={form.watched_episodes} onChange={handleChange} placeholder="Watched Ep." required/>
         </div>
-        <button type="submit">Aggiungi Review</button>
+        <button type="submit"><FontAwesomeIcon icon={["fas", "plus"]} size="lg" style={{color: "#eaf2e8", marginRight:"7px"}} />Aggiungi Review</button>
         {result && <div className="resultContainer"><p>{result}</p></div>}
       </form>
     </div>
