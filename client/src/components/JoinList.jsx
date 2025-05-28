@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getFullReviewInfo } from "../api/review";
-
+import '../assets/css/JoinList.css';
 const FullReviewList = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -48,27 +48,32 @@ const FullReviewList = () => {
     };
 
   return (
-    <div>
+    <div className="animeListContainer">
       <h2>Review + Anime + Status</h2>
 
-      <label htmlFor="limit" style={{ marginLeft: "1rem" }}>Visualizza per pagina: </label>
-      <select id="review-limit" value={limit} onChange={handleLimitChange}>
+      <div className="CercaVisualizzaOrdina">
+        <div className='form-group'>
+          <label htmlFor="limit" style={{ marginLeft: "1rem" }}>Visualizza per pagina: </label>
+          <select id="review-limit" value={limit} onChange={handleLimitChange}>
           <option value={10}>10</option>
           <option value={50}>50</option>
           <option value={100}>100</option>
           <option value={200}>200</option>
-      </select>
-
-      <label htmlFor="sort" style={{ marginLeft: "1rem" }}>Ordina per: </label>
-      <select id="sort" value={sort} onChange={handleSortChange}>
+          </select>
+        </div>
+        <div className='form-group'>
+          <label htmlFor="sort" style={{ marginLeft: "1rem" }}>Ordina per: </label>
+          <select id="sort" value={sort} onChange={handleSortChange}>
           <option value="anime_id_asc">Anime ID Crescente</option>
           <option value="anime_id_desc">Anime ID Decrescente</option>
           <option value="rating_asc">Rating Crescente</option>
           <option value="rating_desc">Rating Decrescente</option>
-      </select>
+          </select>
+        </div>
+      </div>
 
       <table>
-        <thead>
+        <thead className="headTable">
           <tr>
             <th>User ID</th>
             <th>Anime ID</th>
@@ -80,7 +85,7 @@ const FullReviewList = () => {
             <th>Stato</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bodyTable">
           {data.map((item) => (
             <tr key={item._id}>
               <td>{item.user_id}</td>
@@ -96,10 +101,10 @@ const FullReviewList = () => {
         </tbody>
       </table>
 
-      <div style={{ marginTop: "1rem" }}>
-        <button onClick={prevPage} disabled={page === 1}>Indietro</button>
-        <span style={{ margin: "0 1rem" }}>Pagina {page} di {totalPages}</span>
-        <button onClick={nextPage} disabled={page === totalPages}>Avanti</button>
+      <div className="nav-btn" >
+        <button  className='back-btn' onClick={prevPage} disabled={page === 1}>Indietro</button>
+        <span>Pagina {page} di {totalPages}</span>
+        <button className='go-btn' onClick={nextPage} disabled={page === totalPages}>Avanti</button>
       </div>
     </div>
   );
