@@ -225,25 +225,30 @@ const AnimeList = ({ refresh }) => {
     <div className='animeListContainer'>
       <h2>Anime List (pagina {page} di {totalPages})</h2>
       <div className='CercaVisualizzaOrdina'>
-        <input
+        <div className='form-group' id='cerca'>
+          <label htmlFor="search">Cerca: </label>
+          <input
           type="text"
           value={search}
           onChange={handleSearchChange}
           placeholder="Cerca anime per nome..."
-          style={{ marginBottom: "1rem", padding: "0.5rem" }}
         />
-
-        <label htmlFor="limit" style={{ marginLeft: "1rem" }}>Visualizza per pagina: </label>
-        <select id="limit" value={limit} onChange={handleLimitChange}>
+        </div>
+        
+        <div className='form-group'>
+          <label htmlFor="limit" >Visualizza per pagina: </label>
+          <select id="limit" value={limit} onChange={handleLimitChange}>
           <option value={10}>10</option>
           <option value={50}>50</option>
           <option value={100}>100</option>
           <option value={200}>200</option>
-        </select>
-
+          </select>
+        </div>
         
-        <label htmlFor="sort" style={{ marginLeft: "1rem" }}>Ordina per: </label>
-        <select id="sort" value={sort} onChange={handleSortChange}>
+
+        <div className='form-group'>
+          <label htmlFor="sort" >Ordina per: </label>
+          <select id="sort" value={sort} onChange={handleSortChange}>
           <option value="MAL_ID_asc">MAL_ID Crescente</option>
           <option value="MAL_ID_desc">MAL_ID Decrescente</option>
           <option value="Name_asc">Nome Crescente</option>
@@ -251,6 +256,7 @@ const AnimeList = ({ refresh }) => {
           <option value="Score_asc">Score Crescente</option>
           <option value="Score_desc">Score Decrescente</option>
         </select>
+        </div>
       </div>
 
      
@@ -272,8 +278,10 @@ const AnimeList = ({ refresh }) => {
   </div>
 </div>
         
-        <div className='produttori'>
-        <label style={{ margin: "0 0.5rem 0 1rem" }}>Produttore:</label>
+        <div className='produttoriStudio'>
+          
+        <div className='form-group'>
+        <label>Produttore:</label>
         <select value={selectedProducer} onChange={handleProducerChange}>
           <option value="">Tutti</option>
           {producersList.map(p => (
@@ -282,8 +290,8 @@ const AnimeList = ({ refresh }) => {
         </select>
         </div>
         
-        <div className='studio'>
-          <label style={{ margin: "0 0.5rem 0 1rem" }}>Studio:</label>
+        <div className='form-group'>
+          <label >Studio:</label>
         <select value={selectedStudio} onChange={handleStudioChange}>
           <option value="">Tutti</option>
           {studiosList.map(s => (
@@ -291,23 +299,27 @@ const AnimeList = ({ refresh }) => {
           ))}
         </select>
         </div>
-        
-        <div className='valutazione'>
-          <label style={{ margin: "0 0.5rem 0 1rem" }}>Valutazione:</label>
-        <span>
-          {ratings.map(r => (
-            <label key={r} style={{ marginRight: "0.5rem" }}>
-              <input
-                type="checkbox"
-                value={r}
-                checked={selectedRatings.includes(r)}
-                onChange={handleRatingCheckbox}
-              />
-              {r}
-            </label>
-          ))}
-        </span>
         </div>
+
+
+        <div className="valutazione-wrapper">
+  <div className='valutazione'>
+    <label className='valutazione-label'>Valutazione:</label>
+    <div className='valutazione-container'>
+      {ratings.map(r => (
+        <label key={r}>
+          <input
+            type="checkbox"
+            value={r}
+            checked={selectedRatings.includes(r)}
+            onChange={handleRatingCheckbox}
+          />
+          {r}
+        </label>
+      ))}
+    </div>
+  </div>
+</div>
       </div>
 
       {error && <div style={{ color: "red", margin: "0.5rem 0" }}>{error}</div>}

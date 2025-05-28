@@ -6,13 +6,25 @@
 #24341e
 */
 
+.animeListContainer h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  font-family: Overpass, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
 .animeListContainer {
   overflow-x: auto;
   border: 3px solid #24341e;
   border-radius: 12px;
   box-shadow: 0 8px 16px rgba(179, 198, 201, 0.6);
   background-color: #eaf2e8;
-  margin-top: 1rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  font-family: 'Poppins', sans-serif;
+
 }
 
 /* Tabella */
@@ -66,41 +78,59 @@
   color: #fff;
 }
 
+
 .CercaVisualizzaOrdina {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  align-items: flex-end;
+  margin: 2rem 0;
+  gap: 3rem; 
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 280px; 
+}
+
+.form-group label {
+  font-weight: bold;
+  font-family: Overpass, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;;
+  text-align: left;
+  margin-bottom: 4px;
+  font-size: 1.2rem;
+  color: #24341e;
+  display: block;
 }
 
 .CercaVisualizzaOrdina input,
 .CercaVisualizzaOrdina select {
-  padding: 10px 16px;
-  font-size: 1rem;
-  border: 2px solid #24341e;
   border-radius: 8px;
-  background-color: #eaf2e8;
+  border: 2px solid #4f7241;
+  background-color: #f2f8f1;
+  font-size: 1.1rem;
   font-family: 'Poppins', sans-serif;
-  height: 44px;
-  min-width: 160px;
-  box-shadow: inset 1px 1px 4px #b0c8aa;
-  transition: all 0.2s ease;
+  min-width: 200px;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
+  width: 100%;
+  height: 52px; 
+  padding: 12px 16px;
+  max-width: 100%;
+  box-sizing: border-box; 
+}
+
+.CercaVisualizzaOrdina input::placeholder {
+  color: #4f7241;
+  font-style: italic;
 }
 
 .CercaVisualizzaOrdina input:focus,
 .CercaVisualizzaOrdina select:focus {
-  outline: none;
-  border-color: #4f7241;
-  box-shadow: 0 0 0 2px rgba(79, 114, 65, 0.2);
-}
-
-.CercaVisualizzaOrdina label {
-  font-weight: 500;
-  font-size: 1rem;
-  color: #24341e;
-  font-family: 'Poppins', sans-serif;
+  outline: none; /* rimuove il bordo blu di default */
+  border: 2px solid #7cab6b; /* colore verde chiaro */
+  box-shadow: 0 0 6px rgba(124, 171, 107, 0.6); /* alone verde */
 }
 
 .generi {
@@ -109,26 +139,114 @@
 }
 
 .generi label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  display: inline-block;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #24341e;
+  display: block;
+  font-family: Overpass, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;;
+  text-align: left;
+  margin-bottom: 8px;
 }
 
 .generi-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 0.5rem 1rem;
-  padding: 0.5rem 0;
-  background-color: #eaf2e8;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.6rem;
+  padding: 1.2rem 1.5rem;
+  background-color: #7cab6b;
   border: 2px solid #24341e;
   border-radius: 8px;
-  padding: 1rem;
 }
 
 .generi-container label {
-  font-weight: normal;
-  font-size: 0.95rem;
+  font-weight: bold;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  color: #24341e;
+  text-transform: capitalize;
 }
+
+.produttoriStudio {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  margin: 2rem 0;
+  gap: 3rem; 
+}
+
+.produttoriStudio input,
+.produttoriStudio select {
+  border-radius: 8px;
+  border: 2px solid #4f7241;
+  background-color: #f2f8f1;
+  font-size: 1.1rem;
+  font-family: 'Poppins', sans-serif;
+  min-width: 200px;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
+  width: 100%;
+  height: 52px; 
+  padding: 12px 16px;
+  max-width: 100%;
+  box-sizing: border-box; 
+}
+
+.produttoriStudio input::placeholder {
+  color: #4f7241;
+  font-style: italic;
+}
+
+.produttoriStudio input:focus,
+.produttoriStudio select:focus {
+  outline: none; /* rimuove il bordo blu di default */
+  border: 2px solid #7cab6b; /* colore verde chiaro */
+  box-shadow: 0 0 6px rgba(124, 171, 107, 0.6); /* alone verde */
+}
+
+
+
+.valutazione {
+  margin-bottom: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  align-items: center;
+}
+
+.valutazione label {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #24341e;
+  display: block;
+  font-family: Overpass, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.valutazione-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem 1rem;
+  padding: 1.5rem 2rem;
+  background-color: #7cab6b;
+  border: 2px solid #24341e;
+  border-radius: 8px;
+  max-width: 700px;
+}
+
+.valutazione-container label {
+  font-weight: bold;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #24341e;
+  text-transform: capitalize;
+}
+
+.valutazione-wrapper{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
