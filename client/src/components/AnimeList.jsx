@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { getAllAnime, deleteAnime, updateAnime, searchAnimeByName, getAnimeRatings, getAnimeGenres, getAnimeProducers, getAnimeStudios, checkAnimeRatingExists } from "../api/anime";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faMagnifyingGlass, faSort, faFilter, faArrowRight, faArrowLeft, faFloppyDisk, faXmark, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faSort, faFilter, faArrowRight, faArrowLeft, faFloppyDisk, faXmark, faPen, faTrash, faBan } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
-library.add(faMagnifyingGlass, faEye,faSort, faFilter, faArrowRight, faArrowLeft, faFloppyDisk, faXmark, faPen, faTrash);
+library.add(faMagnifyingGlass, faEye,faSort, faFilter, faArrowRight, faArrowLeft, faFloppyDisk, faXmark, faPen, faTrash, faBan);
 
 const AnimeList = ({ refresh }) => {
   const [animeList, setAnimeList] = useState([]);
@@ -359,7 +359,9 @@ const AnimeList = ({ refresh }) => {
         <tbody className='bodyTable'>
           {animeList.length === 0 ? (
             <tr>
-              <td colSpan={11} style={{ textAlign: "center" }}>Nessun Risultato</td>
+              <td colSpan={11} style={{ textAlign: "center" }}><div className="noResult">
+                <FontAwesomeIcon icon={["fas","ban"]} size="5x" style={{color: "#4f7241"}} />
+                <h3 id="noResult">Nessun Risultato</h3></div></td>
             </tr>
           ) : (
             animeList.map(anime =>

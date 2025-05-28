@@ -365,3 +365,12 @@
   font-weight: bold;
   margin-left: 5px;
 }
+
+.noResult{
+  margin-top: 45px;
+ 
+}
+
+#noResult{
+  color: #4f7241;
+}

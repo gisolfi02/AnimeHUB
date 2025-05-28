@@ -163,7 +163,9 @@ const ReviewList = () => {
                 <tbody className="bodyTable">
                     {reviewList.length === 0 ? (
                         <tr>
-                            <td colSpan={6} style={{ textAlign: "center" }}>Nessun Risultato</td>
+                            <td colSpan={6} style={{ textAlign: "center" }}><div className="noResult">
+                <FontAwesomeIcon icon={["fas","ban"]} size="5x" style={{color: "#4f7241"}} />
+                <h3 id="noResult">Nessun Risultato</h3></div></td>
                         </tr>
                     ) : (
                         reviewList.map(review => editingId === review._id ? (
