@@ -1,5 +1,8 @@
 
 # AnimeHUB
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cf3415eb-69d1-4261-8d40-1df9854124cd" style="width:300px">
+</p>
 
 AnimeHUB è una web application full-stack per la gestione di un database di anime e recensioni. Permette agli utenti di aggiungere, visualizzare, modificare ed eliminare anime e recensioni, oltre a consultare informazioni aggregate tramite join tra le tabelle. Il progetto è suddiviso in due parti principali: **client** (frontend React) e **server** (backend Node.js/Express + MongoDB).
 
