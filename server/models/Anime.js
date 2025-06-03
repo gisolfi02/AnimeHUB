@@ -1,4 +1,3 @@
-// server/models/Anime.js
 const mongoose = require("mongoose");
 
 const AnimeSchema = new mongoose.Schema({

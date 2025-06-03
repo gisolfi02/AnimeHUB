@@ -8,7 +8,6 @@ exports.getAllAnime = async (req, res) => {
     const sortField = req.query.sortField || "";
     const sortOrder = parseInt(req.query.sortOrder) || 1;
 
-    // Filtri multipli
     const filter = {};
     if (req.query["genres[]"]) {
       const genres = Array.isArray(req.query["genres[]"]) ? req.query["genres[]"] : [req.query["genres[]"]];
@@ -64,7 +63,6 @@ exports.searchAnimeByName = async (req, res) => {
     const sortField = req.query.sortField || "";
     const sortOrder = parseInt(req.query.sortOrder) || 1;
 
-    // Filtri multipli
     const filter = query
       ? { Name: { $regex: query, $options: "i" } }
       : {};

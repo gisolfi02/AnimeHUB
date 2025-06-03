@@ -13,11 +13,13 @@ function buildFilterQuery(filters = {}) {
     return query;
 }
 
-export const getAllAnime = (page = 1, limit = 100, sortField="", sortOrder=1, filters={}) => axios.get(`${API_URL}?page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}${buildFilterQuery(filters)}`);
+export const getAllAnime = (page = 1, limit = 100, sortField="", sortOrder=1, filters={}) => 
+    axios.get(`${API_URL}?page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}${buildFilterQuery(filters)}`);
 export const createAnime = (data) => axios.post(API_URL, data);
 export const deleteAnime = (id) => axios.delete(`${API_URL}/${id}`);
 export const updateAnime = (id, data) => axios.put(`${API_URL}/${id}`, data);
-export const searchAnimeByName = (query, page = 1, limit = 100, sortField="", sortOrder=1, filters={}) => axios.get(`${API_URL}/search?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}${buildFilterQuery(filters)}`);
+export const searchAnimeByName = (query, page = 1, limit = 100, sortField="", sortOrder=1, filters={}) => 
+    axios.get(`${API_URL}/search?q=${encodeURIComponent(query)}&page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}${buildFilterQuery(filters)}`);
 export const getAnimeRatings = () => axios.get(`${API_URL}/ratings`);
 export const getAnimeGenres = () => axios.get(`${API_URL}/genres`);
 export const getAnimeProducers = () => axios.get(`${API_URL}/producers`);

@@ -17,10 +17,8 @@ function App() {
 
   const getButtonClass = (path) => activeButton === path ? "active" : "";
 
-  // Determina se mostrare lo sfondo e la descrizione
   const showBackground = activeButton === null;
 
-  // Applica la classe per nascondere lo sfondo se necessario
   const rootClass = showBackground ? "" : "no-background";
 
   return (
@@ -62,7 +60,6 @@ function App() {
               <button  className={getButtonClass("/join-list")} onClick={() => setActiveButton("/join-list")}>Visualizza Tutto</button>
             </Link>
           </div>
-          {/* Mostra le route solo se è stato selezionato un bottone */}
           {activeButton && (
             <Routes>
               <Route path="/anime-form" element={<AnimeForm onCreated={triggerRefresh} />} />
