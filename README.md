@@ -22,20 +22,20 @@
 
 ## 📂 Project Structure
 ```
-AnimeHUB/
+📁 AnimeHUB/
 │
-├── client/               # React Frontend
-│   ├── src/
-│   │   ├── api/          # API call functions
-│   │   ├── assets/       # CSS and images
-│   │   └── components/   # React components
+├── 📁 client/               # React Frontend
+│   ├── 📁 src/
+│   │   ├── 📁 api/          # API call functions
+│   │   ├── 📁 assets/       # CSS and images
+│   │   └── 📁 components/   # React components
 │   ├── index.html
 │   └── vite.config.js
 │
-├── server/               # Node.js Backend
-│   ├── controllers/      # Controllers for Anime and Review
-│   ├── models/           # Mongoose schemas
-│   ├── routes/           # REST API routes
+├── 📁 server/               # Node.js Backend
+│   ├── 📁 controllers/      # Controllers for Anime and Review
+│   ├── 📁 models/           # Mongoose schemas
+│   ├── 📁 routes/           # REST API routes
 │   ├── server.js         # Server entry point
 │   └── .env              # Environment variables
 │
