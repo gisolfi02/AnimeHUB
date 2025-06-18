@@ -110,7 +110,7 @@ const FullReviewList = () => {
 
       <div className="nav-btn" >
         <button  className='back-btn' onClick={prevPage} disabled={page === 1}><FontAwesomeIcon icon={["fas", "arrow-left"]} size='lg' style={{color: "#ffffff",marginRight:"7px"}} />Indietro</button>
-        <button className='go-btn' onClick={nextPage} disabled={page === totalPages}><FontAwesomeIcon icon={["fas", "arrow-right"]} size='lg' style={{color: "#ffffff",marginLeft:"7px"}} />Avanti</button>
+        <button className='go-btn' onClick={nextPage} disabled={page === totalPages}>Avanti<FontAwesomeIcon icon={["fas", "arrow-right"]} size='lg' style={{color: "#ffffff",marginLeft:"7px"}} /></button>
       </div>
     </div>
   );

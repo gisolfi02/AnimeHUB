@@ -120,8 +120,13 @@ exports.checkAnimeIdExists = async (req, res) => {
 exports.checkAnimeRatingExists = async (req, res) => {
   try {
     const rating = parseInt(req.params.rating);
-    const exists = await Anime.exists({ Rating: rating });
-    res.json({ exists: !!exists });
+    const malId = req.query.malId ? parseInt(req.query.malId) : null;
+    const query = { Ranked: rating };
+    if (malId !== null && !isNaN(malId)) {
+      query.MAL_ID = { $ne: malId };
+    }
+    const exists = await Anime.exists(query);
+    res.json({ exists: !exists }); 
   } catch (err) {
     res.status(500).json({ message: "Errore controllo rating", error: err.message });
   }

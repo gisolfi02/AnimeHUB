@@ -172,14 +172,14 @@ const AnimeList = ({ refresh }) => {
     if(editForm.Ranked < 0 || editForm.Ranked=="") {
       setError("Posizione nel ranking non valida");
       return;
-    }else {
-      const ratingExists = await checkAnimeRatingExists(editForm.Rating);
+    } else {
+      const ratingExists = await checkAnimeRatingExists(editForm.Ranked, editForm.MAL_ID);
       if (!ratingExists) {
-        setError("Posizione nel ranking già presente")
+        setError("Posizione nel ranking già presente");
         return;
       }
     }
-
+    
     await updateAnime(id, editForm);
     setEditingId(null);
     fetchPage(page, limit);
