@@ -114,8 +114,3 @@ Examples:
 - `GET /api/review/full` — Join reviews + anime
 
 ---
-
-## 📜 License
-
-> This project was created for educational purposes at the University of Salerno.  
-> All contents are original or demonstrative for teaching purposes.
